@@ -72,7 +72,7 @@ export default function Home() {
       title: "Konut",
       description: "Daire, villa, müstakil ev, bina ve daha fazlası",
       image: "/images/categories/konut.jpg",
-      icon: <HomeIcon className="text-primary" size={28} />,
+      icon: <HomeIcon className="text-primary" size={20} />,
       count: categoryCountData.konut
     },
     {
@@ -80,7 +80,7 @@ export default function Home() {
       title: "İş Yeri",
       description: "Ofis, mağaza, depo, fabrika ve daha fazlası",
       image: "/images/categories/isyeri.jpg",
-      icon: <Building2 className="text-primary" size={28} />,
+      icon: <Building2 className="text-primary" size={20} />,
       count: categoryCountData.ticari
     },
     {
@@ -88,7 +88,7 @@ export default function Home() {
       title: "Arsa",
       description: "Arsa, arazi, tarla, bahçe ve daha fazlası",
       image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Map className="text-primary" size={28} />,
+      icon: <Map className="text-primary" size={20} />,
       count: categoryCountData.arsa
     },
     {
@@ -96,7 +96,7 @@ export default function Home() {
       title: "Otomotiv",
       description: "Otomobil, motosiklet, ticari araç ve daha fazlası",
       image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Car className="text-primary" size={28} />,
+      icon: <Car className="text-primary" size={20} />,
       count: categoryCountData.vasita
     }
   ];
@@ -120,9 +120,6 @@ export default function Home() {
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headings font-bold text-white mb-4 sm:mb-6 drop-shadow-lg leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
                 Hayalinizdeki Evi <span className="text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl inline-block">Bulun</span>
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto drop-shadow-md leading-relaxed">
-                Tokat Ceyhun Gayrimenkul ile güvenli ve kolay emlak deneyimi
-              </p>
             </div>
 
             {/* Big Search Bar */}
@@ -152,18 +149,18 @@ export default function Home() {
                 <Link 
                   key={category.id} 
                   href={`/ilanlar/${category.id}`}
-                  className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
+                  className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-3">
+                  <div className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
                     <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
                       {category.icon}
                     </div>
-                    <h3 className="font-headings text-white font-semibold text-sm sm:text-base md:text-lg">
+                    <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
                       {category.title}
                     </h3>
                     {!isLoading && (
-                      <span className="text-xs sm:text-sm text-white/80 font-medium">
+                      <span className="text-[10px] sm:text-sm text-white/80 font-medium">
                         {category.count} ilan
                       </span>
                     )}
