@@ -1672,7 +1672,14 @@ if (selectedType === 'Prefabrik') {
                     <CardContent className="pt-6">
                       <div className="space-y-6">
                         <div className="flex items-center justify-center">
-                          <Check className="h-16 w-16 text-green-500 mb-4" />
+                          <Image 
+                            src="/images/success-horse.svg" 
+                            alt="Başarı" 
+                            width={200} 
+                            height={200} 
+                            className="object-contain"
+                            priority
+                          />
                         </div>
                         <h3 className="text-xl font-bold text-center">İlanınız Hazır!</h3>
                         <p className="text-gray-600 text-center">

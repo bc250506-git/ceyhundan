@@ -1,0 +1,54 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- At gövdesi -->
+  <ellipse cx="150" cy="240" rx="70" ry="40" fill="#D2B48C" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- At başı -->
+  <circle cx="220" cy="200" r="25" fill="#D2B48C" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- At kulakları -->
+  <polygon points="210,170 215,150 220,170" fill="#8B4513"/>
+  <polygon points="230,170 235,150 240,170" fill="#8B4513"/>
+  
+  <!-- At gözü -->
+  <circle cx="228" cy="195" r="3" fill="black"/>
+  
+  <!-- At burun -->
+  <line x1="245" y1="200" x2="255" y2="200" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- At bacakları -->
+  <rect x="100" y="280" width="10" height="60" fill="#8B4513"/>
+  <rect x="150" y="280" width="10" height="60" fill="#8B4513"/>
+  <rect x="190" y="280" width="10" height="60" fill="#8B4513"/>
+  <rect x="230" y="280" width="10" height="60" fill="#8B4513"/>
+  
+  <!-- At kuyruğu -->
+  <path d="M 80 240 Q 50 230 45 260" stroke="#8B4513" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- İnsan başı (atın üzerinde) -->
+  <circle cx="160" cy="130" r="20" fill="#FFC8A0" stroke="black" stroke-width="1"/>
+  
+  <!-- İnsan gövdesi -->
+  <rect x="148" y="155" width="24" height="50" fill="#4A90E2" stroke="black" stroke-width="1" rx="4"/>
+  
+  <!-- İnsan kolları (açık) -->
+  <line x1="148" y1="165" x2="110" y2="145" stroke="#FFC8A0" stroke-width="4" stroke-linecap="round"/>
+  <line x1="172" y1="165" x2="210" y2="145" stroke="#FFC8A0" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- El (mutlu işaret pozisyonu) -->
+  <circle cx="105" cy="140" r="8" fill="#FFC8A0" stroke="black" stroke-width="1"/>
+  <circle cx="215" cy="140" r="8" fill="#FFC8A0" stroke="black" stroke-width="1"/>
+  
+  <!-- Büyük yeşil tik işareti (başarı sembolü) -->
+  <circle cx="260" cy="80" r="35" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  
+  <!-- Tik çizgisi 1 (başlangıç) -->
+  <line x1="245" y1="85" x2="255" y2="95" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Tik çizgisi 2 (bitiş) -->
+  <line x1="255" y1="95" x2="280" y2="65" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Dekoratif yıldızlar -->
+  <circle cx="240" cy="40" r="3" fill="#FFD700"/>
+  <circle cx="280" cy="35" r="3" fill="#FFD700"/>
+  <circle cx="310" cy="70" r="3" fill="#FFD700"/>
+</svg>

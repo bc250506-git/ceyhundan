@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '297855';
 
 export async function POST(request: Request) {
   try {
