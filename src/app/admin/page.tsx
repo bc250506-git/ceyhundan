@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Loading } from "@/components/ui/loading";
 
@@ -22,13 +22,6 @@ export default function AdminLogin() {
     setIsLoading(true);
     setError("");
 
-    // Validate input
-    if (!username || !password) {
-      setError("Kullanıcı adı ve parola boş olamaz");
-      setIsLoading(false);
-      return;
-    }
-
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -37,14 +30,9 @@ export default function AdminLogin() {
         },
         body: JSON.stringify({ username, password }),
       });
-      
-      console.log('Login response:', { status: response.status, username });
-      
+
       if (response.ok) {
-        const data = await response.json();
-        // Store authentication info
         localStorage.setItem("adminAuthenticated", "true");
-        localStorage.setItem("adminUser", data.user || username);
         router.push("/admin/panel");
       } else {
         const data = await response.json();
@@ -63,7 +51,7 @@ export default function AdminLogin() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-lg"
+        className="w-full max-w-md"
       >
         <Card className="shadow-2xl border-0">
           <CardHeader className="space-y-4 text-center pb-6">
@@ -78,34 +66,32 @@ export default function AdminLogin() {
               />
             </div>
             <CardTitle className="text-3xl font-bold">Admin Paneli</CardTitle>
-            <CardDescription className="text-base">Hesabınıza giriş yapınız</CardDescription>
+            <CardDescription className="text-base">Giriş Yapınız</CardDescription>
           </CardHeader>
           
-          <CardContent className="pb-6">
+          <CardContent>
             {error && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-medium"
+                className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"
               >
                 {error}
               </motion.div>
             )}
 
-            <form onSubmit={handleLogin} className="space-y-5">
+            <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="username" className="text-base font-medium">Kullanıcı Adı</Label>
-                <select
+                <Input
                   id="username"
+                  type="text"
+                  placeholder="admin"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
                   disabled={isLoading}
-                >
-                  <option value="">Kullanıcı seç...</option>
-                  <option value="damla">Damla</option>
-                  <option value="ceyhundan">Ceyhundan</option>
-                </select>
+                  className="px-4 py-2"
+                />
               </div>
 
               <div className="space-y-2">
@@ -113,17 +99,17 @@ export default function AdminLogin() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Parolanız"
+                  placeholder="Parola"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isLoading}
-                  className="focus:ring-primary px-4 py-3 text-base"
+                  className="px-4 py-2"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-base font-medium py-3 mt-6"
+                className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 mt-4"
                 disabled={isLoading}
               >
                 {isLoading ? <Loading /> : "Giriş Yap"}
