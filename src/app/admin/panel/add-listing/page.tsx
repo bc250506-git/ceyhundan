@@ -500,6 +500,8 @@ export default function AddListing() {
   const [tempListingId, setTempListingId] = useState<string | null>(null);
   const [cloudinaryFolder, setCloudinaryFolder] = useState<string | null>(null);
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
+  const [listingCount, setListingCount] = useState(0);
+  const [isEveryFifthListing, setIsEveryFifthListing] = useState(false);
 
   // Load admin user from localStorage
   useEffect(() => {
@@ -507,6 +509,10 @@ export default function AddListing() {
     if (user) {
       setAdminUser(user);
     }
+    // Load listing count from localStorage
+    const count = localStorage.getItem("listingCount");
+    const currentCount = count ? parseInt(count) : 0;
+    setListingCount(currentCount);
   }, []);
 
   // Generate a temporary listing ID on component mount
@@ -1181,6 +1187,17 @@ if (selectedType === 'Prefabrik') {
         throw new Error(`Failed to ${isEditMode ? 'update' : 'create'} listing`);
       }
       
+      // Update listing count only if creating new listing (not editing)
+      if (!isEditMode) {
+        const newCount = listingCount + 1;
+        setListingCount(newCount);
+        localStorage.setItem("listingCount", newCount.toString());
+        // Check if this is a 5th listing
+        if (newCount % 5 === 0) {
+          setIsEveryFifthListing(true);
+        }
+      }
+      
       // 5. Redirect to admin panel after successful submission with query parameter to show all listings
       router.push("/admin/panel?filter=all");
     } catch (error) {
@@ -1676,7 +1693,10 @@ if (selectedType === 'Prefabrik') {
                         </div>
                         <h3 className="text-xl font-bold text-center">İlanınız Hazır!</h3>
                         <p className="text-gray-600 text-center">
-                          Tebrikler {adminUser.charAt(0).toUpperCase() + adminUser.slice(1)}! İlanın başarıyla hazırlandı.
+                          {isEveryFifthListing 
+                            ? "Helal olsun     -Berk"
+                            : `Tebrikler ${adminUser.charAt(0).toUpperCase() + adminUser.slice(1)}! İlanın başarıyla hazırlandı.`
+                          }
                         </p>
                         
                         <div className="pt-6 flex flex-col space-y-4">

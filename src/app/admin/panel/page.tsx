@@ -130,6 +130,16 @@ export default function AdminPanel() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [listingToDelete, setListingToDelete] = useState<string | null>(null);
 
+  // Random greeting message state
+  const [randomMessage, setRandomMessage] = useState<string>("");
+  const greetingMessages = [
+    "slm",
+    "Berk buradaydı",
+    "Kolay gelsin",
+    "nbr",
+    "Berk'in selamı var"
+  ];
+
   // Price form schema
   const priceFormSchema = z.object({
     price: z.coerce.number().positive({ message: "Fiyat pozitif bir değer olmalıdır" })
@@ -216,6 +226,12 @@ export default function AdminPanel() {
     };
     
     fetchListings();
+  }, []);
+
+  // Set random greeting message on component mount
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * greetingMessages.length);
+    setRandomMessage(greetingMessages[randomIndex]);
   }, []);
 
   // Reset to page 1 only when filter or sort settings change
@@ -1197,6 +1213,15 @@ export default function AdminPanel() {
                     )}
                   </CardContent>
                 </Card>
+              </motion.div>
+
+              {/* Random greeting message */}
+              <motion.div 
+                variants={itemVariants}
+                transition={{ type: "spring", stiffness: 100 }}
+                className="py-8 px-6 text-center"
+              >
+                <p className="text-gray-400 text-sm italic">{randomMessage}</p>
               </motion.div>
             </motion.div>
           </TabsContent>
