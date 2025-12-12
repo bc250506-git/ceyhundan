@@ -1,7 +1,5 @@
-// Environment variables with defaults for development
+// Environment variables - .env.local is loaded automatically by Next.js
 export const env = {
-  // Admin credentials
-  ADMIN_PASSWORD: process.env.KULLANICI_SIFRE || 'admin123',
-  
-  // Add other environment variables here as needed
+  DAMLA_PASSWORD: process.env.DAMLA_PASSWORD || '',
+  CEYHUNDAN_PASSWORD: process.env.CEYHUNDAN_PASSWORD || '',
 }; 

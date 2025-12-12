@@ -21,7 +21,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChevronDown, ChevronUp, ChevronsUpDown, Check, X } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronsUpDown, Check, X, LogOut, User } from "lucide-react";
 import { Loading } from "@/components/ui/loading";
 import Script from "next/script";
 import { 
@@ -70,6 +70,7 @@ interface Stats {
 
 export default function AdminPanel() {
   const router = useRouter();
+  const [adminUser, setAdminUser] = useState<string>("");
   const [activeTab, setActiveTab] = useState("dashboard");
   const [listings, setListings] = useState<Listing[]>([]);
   const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
@@ -157,6 +158,10 @@ export default function AdminPanel() {
 
   // Fetch listings from API
   useEffect(() => {
+    // Load admin user info
+    const user = localStorage.getItem("adminUser") || "Admin";
+    setAdminUser(user);
+    
     const fetchListings = async () => {
       try {
         setIsLoading(true);
@@ -438,6 +443,7 @@ export default function AdminPanel() {
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuthenticated");
+    localStorage.removeItem("adminUser");
     router.push("/admin");
   };
 
@@ -1001,13 +1007,36 @@ export default function AdminPanel() {
               />
             </a>
           </div>
-          <Button 
-            variant="outline" 
-            onClick={handleLogout}
-            className="border-red-500 text-red-500 hover:bg-red-50 text-sm sm:text-base py-1 sm:py-2 px-2 sm:px-4"
-          >
-            Çıkış Yap
-          </Button>
+          
+          {/* User Profile Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost"
+                className="flex items-center gap-2 text-gray-700 hover:text-gray-900"
+              >
+                <User size={20} />
+                <span className="hidden sm:inline text-sm font-medium capitalize">{adminUser}</span>
+                <ChevronDown size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="px-3 py-2 text-xs font-medium text-gray-500">
+                Oturum Açan
+              </div>
+              <div className="px-3 py-2 text-sm font-semibold text-gray-900 capitalize">
+                {adminUser}
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                onClick={handleLogout}
+                className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700"
+              >
+                <LogOut size={16} className="mr-2" />
+                Çıkış Yap
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 

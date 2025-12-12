@@ -22,15 +22,14 @@ export default function AdminLogin() {
     setIsLoading(true);
     setError("");
 
-    // Simple validation
-    if (username !== "admin") {
-      setError("Kullanıcı adı hatalı");
+    // Validate input
+    if (!username || !password) {
+      setError("Kullanıcı adı ve parola boş olamaz");
       setIsLoading(false);
       return;
     }
 
     try {
-      // In a real app, this would be an API call to verify credentials
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -39,12 +38,17 @@ export default function AdminLogin() {
         body: JSON.stringify({ username, password }),
       });
       
+      console.log('Login response:', { status: response.status, username });
+      
       if (response.ok) {
-        // Set some auth state (cookie/localStorage in real app)
+        const data = await response.json();
+        // Store authentication info
         localStorage.setItem("adminAuthenticated", "true");
+        localStorage.setItem("adminUser", data.user || username);
         router.push("/admin/panel");
       } else {
-        setError("Parola hatalı");
+        const data = await response.json();
+        setError(data.message || "Giriş başarısız");
       }
     } catch (_err) {
       setError("Giriş yapılırken bir hata oluştu");
@@ -54,79 +58,78 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="w-full max-w-lg"
       >
-        <Card className="border-2 border-[#FFB000]/20 shadow-xl shadow-[#FFB000]/5">
-          <CardHeader className="space-y-1 flex flex-col items-center">
-            <div className="w-40 h-40 relative mb-4">
-              <Image 
-                src="/images/logo_black.png" 
-                alt="Ceyhun Gayrimenkul Logo" 
-                fill
-                className="object-contain"
+        <Card className="shadow-2xl border-0">
+          <CardHeader className="space-y-4 text-center pb-6">
+            <div className="flex justify-center mb-2">
+              <Image
+                src="/images/logo_black.png"
+                alt="Ceyhun Gayrimenkul"
+                width={200}
+                height={60}
+                className="h-14 w-auto"
+                priority
               />
             </div>
-            <CardTitle className="text-2xl font-bold text-center">Admin Girişi</CardTitle>
-            <CardDescription className="text-center">
-              Yönetim paneline erişmek için giriş yapın
-            </CardDescription>
+            <CardTitle className="text-3xl font-bold">Admin Paneli</CardTitle>
+            <CardDescription className="text-base">Hesabınıza giriş yapınız</CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+          
+          <CardContent className="pb-6">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-medium"
+              >
+                {error}
+              </motion.div>
+            )}
+
+            <form onSubmit={handleLogin} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="username">Kullanıcı Adı</Label>
-                <Input
+                <Label htmlFor="username" className="text-base font-medium">Kullanıcı Adı</Label>
+                <select
                   id="username"
-                  placeholder="Kullanıcı adınızı girin"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="border-[#FFB000]/30 focus:border-[#FFB000] focus:ring-[#FFB000]"
-                  required
-                />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                  disabled={isLoading}
+                >
+                  <option value="">Kullanıcı seç...</option>
+                  <option value="damla">Damla</option>
+                  <option value="ceyhundan">Ceyhundan</option>
+                </select>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="password">Parola</Label>
+                <Label htmlFor="password" className="text-base font-medium">Parola</Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Parolanızı girin"
+                  placeholder="Parolanız"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="border-[#FFB000]/30 focus:border-[#FFB000] focus:ring-[#FFB000]"
-                  required
+                  disabled={isLoading}
+                  className="focus:ring-primary px-4 py-3 text-base"
                 />
               </div>
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 rounded-md bg-red-500/10 border border-red-500/20 text-red-500 text-sm"
-                >
-                  {error}
-                </motion.div>
-              )}
+
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-base font-medium py-3 mt-6"
+                disabled={isLoading}
+              >
+                {isLoading ? <Loading /> : "Giriş Yap"}
+              </Button>
             </form>
           </CardContent>
-          <CardFooter>
-            <Button 
-              onClick={handleLogin} 
-              className="w-full bg-[#FFB000] hover:bg-[#FFB000]/80 text-black font-medium transition-all"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <Loading size="small" text="Giriş Yapılıyor..." className="flex-row gap-2" />
-                </div>
-              ) : (
-                "Giriş Yap"
-              )}
-            </Button>
-          </CardFooter>
         </Card>
       </motion.div>
     </div>

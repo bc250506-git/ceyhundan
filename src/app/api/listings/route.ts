@@ -501,7 +501,8 @@ export async function GET(request: NextRequest) {
           konut_details(konut_type),
           ticari_details(ticari_type),
           arsa_details(arsa_type),
-          vasita_details(vasita_type)
+          vasita_details(vasita_type),
+          addresses(province, district, neighborhood, full_address)
         `);
         
       // Admin panelinden yapılan isteklerde tüm ilanları göster

@@ -487,6 +487,7 @@ export default function AddListing() {
   const listingId = searchParams.get('id');
   const isEditMode = !!listingId;
   
+  const [adminUser, setAdminUser] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -499,6 +500,14 @@ export default function AddListing() {
   const [tempListingId, setTempListingId] = useState<string | null>(null);
   const [cloudinaryFolder, setCloudinaryFolder] = useState<string | null>(null);
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
+
+  // Load admin user from localStorage
+  useEffect(() => {
+    const user = localStorage.getItem("adminUser");
+    if (user) {
+      setAdminUser(user);
+    }
+  }, []);
 
   // Generate a temporary listing ID on component mount
   useEffect(() => {
@@ -1667,7 +1676,7 @@ if (selectedType === 'Prefabrik') {
                         </div>
                         <h3 className="text-xl font-bold text-center">İlanınız Hazır!</h3>
                         <p className="text-gray-600 text-center">
-                          İlanınız başarıyla hazırlandı. Onaylamak için aşağıdaki butona tıklayınız.
+                          Tebrikler {adminUser.charAt(0).toUpperCase() + adminUser.slice(1)}! İlanın başarıyla hazırlandı.
                         </p>
                         
                         <div className="pt-6 flex flex-col space-y-4">
