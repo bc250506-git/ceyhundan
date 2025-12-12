@@ -65,6 +65,29 @@ interface VasitaDetails {
   year?: number;
 }
 
+function capitalizeWordTR(word: string): string {
+  if (!word) return word;
+  return word.charAt(0).toLocaleUpperCase('tr-TR') + word.slice(1).toLowerCase();
+}
+
+function formatLocationDisplay(loc?: string): string {
+  if (!loc) return '';
+  return loc
+    .split('/')
+    .map(part => part.trim())
+    .filter(Boolean)
+    .map(part => part
+      .split(' ')
+      .map(token => token
+        .split('-')
+        .map(seg => capitalizeWordTR(seg))
+        .join('-')
+      )
+      .join(' ')
+    )
+    .join('/');
+}
+
 const ListingsGrid = () => {
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -323,7 +346,7 @@ const ListingsGrid = () => {
                           {listing.location && (
                             <div className="flex items-start text-muted-foreground text-xs mb-3 text-left">
                               <MapPin size={14} className="mr-1 flex-shrink-0 text-primary mt-0.5" />
-                              <span className="truncate break-words">{listing.location}</span>
+                              <span className="truncate break-words">{formatLocationDisplay(listing.location)}</span>
                             </div>
                           )}
                         </div>

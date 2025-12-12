@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Menu, X, ChevronDown, ChevronRight, Phone, MapPin } from "lucide-react";
+import { Search, Menu, X, ChevronDown, ChevronRight, Phone, MapPin, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
@@ -145,21 +145,21 @@ const Header = () => {
     >
       {/* Üst Bilgi Şeridi */}
       <div className="w-full bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-1 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-[9px] sm:text-[10px]">
+        <div className="container mx-auto px-4 py-3 sm:py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm">
           {/* Telefon Numaraları */}
           <a 
             href="tel:+905323850420" 
-            className="flex items-center gap-1 text-gray-700 hover:text-primary transition-colors"
+            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
           >
-            <Phone size={10} className="flex-shrink-0" />
+            <Phone size={16} className="flex-shrink-0 sm:size-[18px]" />
             <span className="whitespace-nowrap">0 (532) 385 04 20</span>
           </a>
           
           <a 
             href="tel:+903562280444" 
-            className="flex items-center gap-1 text-gray-700 hover:text-primary transition-colors"
+            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
           >
-            <Phone size={10} className="flex-shrink-0" />
+            <Building2 size={16} className="flex-shrink-0 sm:size-[18px]" />
             <span className="whitespace-nowrap">0 (356) 228 0 444</span>
           </a>
           
@@ -168,9 +168,9 @@ const Header = () => {
             href="https://www.google.com/maps/place/Ceyhun+Gayrimenkul/@40.3135985,36.5464112,17z/data=!3m1!4b1!4m6!3m5!1s0x407db7127e757205:0x3c13ae469d9644fb!8m2!3d40.3135944!4d36.5489861!16s%2Fg%2F11c57mxzdy?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-gray-700 hover:text-primary transition-colors"
+            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
           >
-            <MapPin size={10} className="flex-shrink-0" />
+            <MapPin size={16} className="flex-shrink-0 sm:size-[18px]" />
             <span className="whitespace-nowrap">Tokat Belediye Hizmet Binası Arkası Ceyhun Suit</span>
           </a>
         </div>

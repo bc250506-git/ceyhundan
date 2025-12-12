@@ -709,3 +709,17 @@
     --vh: 1vh;
   }
 }
+
+/* Swiper Pagination Customization - Change blue dots to primary yellow */
+.swiper-pagination-bullet {
+  background-color: #E5E7EB !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #FFB000 !important;
+}
+
+/* Range Slider Styling - Change to primary color */
+input[type="range"] {
+  accent-color: #FFB000;
+}

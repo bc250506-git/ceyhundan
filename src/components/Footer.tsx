@@ -159,12 +159,27 @@ const Footer = () => {
           <div className="mt-6 sm:mt-0">
             <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">İletişim</h3>
             <ul className="space-y-2 sm:space-y-3">
-              <li className="flex items-start">
-                <MapPin size={20} className="mr-2 mt-1 text-primary sm:size-[50px]" />
-                <span className="text-muted-foreground text-sm sm:text-base">
-                  Çarşı Ofis: Alipaşa Mah. Gazipaşa Cad. No:3/A Ceysuit Tokat/Merkez<br /><br />
-                  Karşıyaka Ofis: Altıyüzevler Mah. Vali Ayhan Çevik Bulv. Yunus Emre Sit. A Blok Tokat/Merkez
-                </span>
+              <li className="flex items-start gap-2">
+                <div>
+                  <div className="flex items-start gap-2 mb-3">
+                    <MapPin size={20} className="mt-1 text-primary flex-shrink-0 sm:size-[18px]" />
+                    <div>
+                      <span className="text-primary font-semibold block text-sm sm:text-base mb-1">Çarşı Ofis:</span>
+                      <span className="text-muted-foreground text-sm sm:text-base block">
+                        Alipaşa Mah. Gazipaşa Cad. No:3/A Ceysuit Tokat/Merkez
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <MapPin size={20} className="mt-1 text-primary flex-shrink-0 sm:size-[18px]" />
+                    <div>
+                      <span className="text-primary font-semibold block text-sm sm:text-base mb-1">Karşıyaka Ofis:</span>
+                      <span className="text-muted-foreground text-sm sm:text-base block">
+                        Altıyüzevler Mah. Vali Ayhan Çevik Bulv. Yunus Emre Sit. A Blok Tokat/Merkez
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li className="flex items-center">
                 <Phone size={16} className="mr-2 text-primary sm:size-[18px]" />
@@ -200,25 +215,6 @@ const Footer = () => {
           <p className="text-muted-foreground text-xs sm:text-sm text-center sm:text-left">
             © {new Date().getFullYear()} Ceyhun Gayrimenkul Emlak. Tüm hakları saklıdır.
           </p>
-          <div className="mt-3 sm:mt-0">
-            <ul className="flex flex-wrap justify-center sm:justify-start space-x-3 sm:space-x-4 text-xs sm:text-sm">
-              <li>
-                <Link href="/gizlilik" className="text-muted-foreground hover:text-primary transition-colors py-1 block">
-                  Gizlilik Politikası
-                </Link>
-              </li>
-              <li>
-                <Link href="/kullanim-kosullari" className="text-muted-foreground hover:text-primary transition-colors py-1 block">
-                  Kullanım Koşulları
-                </Link>
-              </li>
-              <li>
-                <Link href="/kvkk" className="text-muted-foreground hover:text-primary transition-colors py-1 block">
-                  KVKK
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </footer>

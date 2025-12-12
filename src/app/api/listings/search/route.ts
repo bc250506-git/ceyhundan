@@ -51,25 +51,29 @@ export async function GET(request: NextRequest) {
       );
     }
     
-    // Multi-word search: Her kelime için ayrı ayrı kontrol (AND mantığı)
+    // Multi-word search: Her kelime için ayrı ayrı kontrol (OR mantığı - en az bir kelime eşleşmeli)
     const filteredListings = allListings.filter(listing => {
-      // Her kelime için eşleşme kontrolü
-      for (const word of words) {
+      // Eğer kelime yoksa, tüm listing'leri göster
+      if (words.length === 0) {
+        return true;
+      }
+      
+      // En az bir kelime eşleşme kontrolü (OR mantığı)
+      return words.some(word => {
         const wordRegex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-        let wordMatches = false;
         
         // Title'da ara
         if (listing.title && wordRegex.test(listing.title)) {
-          wordMatches = true;
+          return true;
         }
         
         // Description'da ara
-        if (!wordMatches && listing.description && wordRegex.test(listing.description)) {
-          wordMatches = true;
+        if (listing.description && wordRegex.test(listing.description)) {
+          return true;
         }
         
         // Address information
-        if (!wordMatches && listing.addresses && listing.addresses.length > 0) {
+        if (listing.addresses && listing.addresses.length > 0) {
           const address = listing.addresses[0];
           if (
             (address.province && wordRegex.test(address.province)) ||
@@ -77,54 +81,56 @@ export async function GET(request: NextRequest) {
             (address.neighborhood && wordRegex.test(address.neighborhood)) ||
             (address.full_address && wordRegex.test(address.full_address))
           ) {
-            wordMatches = true;
+            return true;
           }
         }
         
         // Property-specific details
-        if (!wordMatches) {
-          if (listing.property_type === 'konut' && listing.konut_details && listing.konut_details.length > 0) {
-            const konutDetails = listing.konut_details[0];
-            if (
-              (konutDetails.konut_type && wordRegex.test(konutDetails.konut_type)) ||
-              (konutDetails.room_count && wordRegex.test(konutDetails.room_count))
-            ) {
-              wordMatches = true;
-            }
-          } else if (listing.property_type === 'ticari' && listing.ticari_details && listing.ticari_details.length > 0) {
-            const ticariDetails = listing.ticari_details[0];
-            if (ticariDetails.ticari_type && wordRegex.test(ticariDetails.ticari_type)) {
-              wordMatches = true;
-            }
-          } else if (listing.property_type === 'arsa' && listing.arsa_details && listing.arsa_details.length > 0) {
-            const arsaDetails = listing.arsa_details[0];
-            if (arsaDetails.arsa_type && wordRegex.test(arsaDetails.arsa_type)) {
-              wordMatches = true;
-            }
-          } else if (listing.property_type === 'vasita' && listing.vasita_details && listing.vasita_details.length > 0) {
-            const vasitaDetails = listing.vasita_details[0];
-            if (
-              (vasitaDetails.vasita_type && wordRegex.test(vasitaDetails.vasita_type)) ||
-              (vasitaDetails.brand && wordRegex.test(vasitaDetails.brand)) ||
-              (vasitaDetails.model && wordRegex.test(vasitaDetails.model)) ||
-              (vasitaDetails.sub_model && wordRegex.test(vasitaDetails.sub_model)) ||
-              (vasitaDetails.fuel_type && wordRegex.test(vasitaDetails.fuel_type)) ||
-              (vasitaDetails.transmission && wordRegex.test(vasitaDetails.transmission)) ||
-              (vasitaDetails.color && wordRegex.test(vasitaDetails.color))
-            ) {
-              wordMatches = true;
-            }
+        if (listing.property_type === 'konut' && listing.konut_details && listing.konut_details.length > 0) {
+          const konutDetails = listing.konut_details[0];
+          if (
+            (konutDetails.konut_type && wordRegex.test(konutDetails.konut_type)) ||
+            (konutDetails.room_count && wordRegex.test(konutDetails.room_count)) ||
+            (konutDetails.net_sqm && wordRegex.test(konutDetails.net_sqm.toString())) ||
+            (konutDetails.gross_sqm && wordRegex.test(konutDetails.gross_sqm.toString()))
+          ) {
+            return true;
+          }
+        } else if (listing.property_type === 'ticari' && listing.ticari_details && listing.ticari_details.length > 0) {
+          const ticariDetails = listing.ticari_details[0];
+          if (
+            (ticariDetails.ticari_type && wordRegex.test(ticariDetails.ticari_type)) ||
+            (ticariDetails.room_count && wordRegex.test(ticariDetails.room_count.toString())) ||
+            (ticariDetails.gross_sqm && wordRegex.test(ticariDetails.gross_sqm.toString()))
+          ) {
+            return true;
+          }
+        } else if (listing.property_type === 'arsa' && listing.arsa_details && listing.arsa_details.length > 0) {
+          const arsaDetails = listing.arsa_details[0];
+          if (
+            (arsaDetails.arsa_type && wordRegex.test(arsaDetails.arsa_type)) ||
+            (arsaDetails.sqm && wordRegex.test(arsaDetails.sqm.toString()))
+          ) {
+            return true;
+          }
+        } else if (listing.property_type === 'vasita' && listing.vasita_details && listing.vasita_details.length > 0) {
+          const vasitaDetails = listing.vasita_details[0];
+          if (
+            (vasitaDetails.vasita_type && wordRegex.test(vasitaDetails.vasita_type)) ||
+            (vasitaDetails.brand && wordRegex.test(vasitaDetails.brand)) ||
+            (vasitaDetails.model && wordRegex.test(vasitaDetails.model)) ||
+            (vasitaDetails.sub_model && wordRegex.test(vasitaDetails.sub_model)) ||
+            (vasitaDetails.fuel_type && wordRegex.test(vasitaDetails.fuel_type)) ||
+            (vasitaDetails.transmission && wordRegex.test(vasitaDetails.transmission)) ||
+            (vasitaDetails.color && wordRegex.test(vasitaDetails.color)) ||
+            (vasitaDetails.year && wordRegex.test(vasitaDetails.year.toString()))
+          ) {
+            return true;
           }
         }
         
-        // Eğer bu kelime eşleşmediyse, listing'i filtrele
-        if (!wordMatches) {
-          return false;
-        }
-      }
-      
-      // Tüm kelimeler eşleştiyse true döndür
-      return true;
+        return false;
+      });
     });
     
     // Transform data to include thumbnail_url and remove unnecessary details

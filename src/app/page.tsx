@@ -72,7 +72,7 @@ export default function Home() {
       title: "Konut",
       description: "Daire, villa, müstakil ev, bina ve daha fazlası",
       image: "/images/categories/konut.jpg",
-      icon: <HomeIcon className="text-primary" size={20} />,
+      icon: <HomeIcon className="text-primary" size={32} />,
       count: categoryCountData.konut
     },
     {
@@ -80,7 +80,7 @@ export default function Home() {
       title: "İş Yeri",
       description: "Ofis, mağaza, depo, fabrika ve daha fazlası",
       image: "/images/categories/isyeri.jpg",
-      icon: <Building2 className="text-primary" size={20} />,
+      icon: <Building2 className="text-primary" size={32} />,
       count: categoryCountData.ticari
     },
     {
@@ -88,7 +88,7 @@ export default function Home() {
       title: "Arsa",
       description: "Arsa, arazi, tarla, bahçe ve daha fazlası",
       image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Map className="text-primary" size={20} />,
+      icon: <Map className="text-primary" size={32} />,
       count: categoryCountData.arsa
     },
     {
@@ -96,7 +96,7 @@ export default function Home() {
       title: "Otomotiv",
       description: "Otomobil, motosiklet, ticari araç ve daha fazlası",
       image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Car className="text-primary" size={20} />,
+      icon: <Car className="text-primary" size={32} />,
       count: categoryCountData.vasita
     }
   ];
@@ -115,15 +115,17 @@ export default function Home() {
         <div className="w-full flex flex-col justify-center items-center px-3 sm:px-6 md:px-8 lg:px-12 py-20">
           <div className="w-full max-w-7xl mx-auto text-center">
           
-            {/* Hero Title */}
-            <div className="mb-8 sm:mb-12 animate-fade-in">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headings font-bold text-white mb-4 sm:mb-6 drop-shadow-lg leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
-                Hayalinizdeki Evi <span className="text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl inline-block">Bulun</span>
-              </h1>
-            </div>
+            {/* Hero Title and Search Bar Container */}
+            <div className="w-full max-w-4xl mx-auto">
+              {/* Hero Title */}
+              <div className="mb-8 sm:mb-12 animate-fade-in">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headings font-bold text-white mb-4 sm:mb-6 drop-shadow-lg leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
+                  Hayalinizdeki Evi <span className="text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl inline-block">Bulun</span>
+                </h1>
+              </div>
 
-            {/* Big Search Bar */}
-            <div className="w-full max-w-4xl mx-auto mb-12 sm:mb-16 animate-slide-up">
+              {/* Big Search Bar */}
+              <div className="w-full mb-12 sm:mb-16 animate-slide-up">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
@@ -141,6 +143,7 @@ export default function Home() {
                   <span className="hidden sm:inline">Ara</span>
                 </button>
               </form>
+            </div>
             </div>
 
             {/* Quick Category Links */}

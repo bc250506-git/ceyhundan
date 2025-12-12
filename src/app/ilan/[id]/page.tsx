@@ -18,6 +18,8 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import { formatLocationFromAddress, createSlug } from "@/lib/utils";
 import RelatedListings from "@/components/RelatedListings";
+import ExchangeRates from "@/components/ExchangeRates";
+import KrediHesaplayici from "@/components/KrediHesaplayici";
 
 // Define listing type
 interface Listing {
@@ -1245,6 +1247,12 @@ export default function ListingDetail() {
                       <p className="text-base text-gray-500">Bu ilan için detaylı özellik bilgisi bulunmamaktadır.</p>
                     )}
                   </div>
+
+                  {/* Exchange Rates */}
+                  <ExchangeRates />
+                  
+                  {/* Kredi Hesaplayıcı */}
+                  <KrediHesaplayici />
                 </div>
               </div>
             </div>
