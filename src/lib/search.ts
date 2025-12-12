@@ -305,3 +305,19 @@ export function filterByProperty(
   }
   return listings.filter(l => l.property_type === propertyType);
 }
+
+/**
+ * Search listings by type and query
+ * Combines searchListings and filterByProperty
+ */
+export function searchListingsByType(
+  listings: Listing[],
+  query: string,
+  propertyType: string
+): Listing[] {
+  // First filter by property type
+  const filtered = filterByProperty(listings, propertyType);
+  
+  // Then search within filtered results
+  return searchListings(filtered, query);
+}
