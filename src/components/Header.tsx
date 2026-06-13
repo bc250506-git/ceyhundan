@@ -21,9 +21,6 @@ const Header = () => {
   const [expandedEmlak, setExpandedEmlak] = useState(false);
   const [expandedVasita, setExpandedVasita] = useState(false);
   const [expandedKurumsal, setExpandedKurumsal] = useState(false);
-  const [expandedKonut, setExpandedKonut] = useState(false);
-  const [expandedTicari, setExpandedTicari] = useState(false);
-  const [expandedArsa, setExpandedArsa] = useState(false);
 
   // Handle scroll event to change header style when scrolled
   useEffect(() => {
@@ -83,9 +80,6 @@ const Header = () => {
     setExpandedEmlak(false);
     setExpandedVasita(false);
     setExpandedKurumsal(false);
-    setExpandedKonut(false);
-    setExpandedTicari(false);
-    setExpandedArsa(false);
     
     // Clear hover timeout
     if (hoverTimeout) {
@@ -222,86 +216,20 @@ const Header = () => {
                       onMouseLeave={handleDropdownMouseLeave}
                     >
                       {/* Konut */}
-                      <div className="relative group/subsub">
-                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
-                          <span className="text-gray-600 hover:text-primary transition-colors">Konut</span>
-                          <ChevronRight size={12} />
-                        </div>
-                        
-                        {/* Konut Sub-sub-dropdown */}
-                        <div className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover/subsub:opacity-100 group-hover/subsub:visible transition-all duration-200">
-                          <Link href="/ilanlar/konut?konutType=daire" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Daire
-                          </Link>
-                          <Link href="/ilanlar/konut?konutType=villa" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Villa
-                          </Link>
-                          <Link href="/ilanlar/konut?konutType=mustakil" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Müstakil Ev
-                          </Link>
-                          <Link href="/ilanlar/konut?konutType=bina" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Bina
-                          </Link>
-                        </div>
-                      </div>
-                      
+                      <Link href="/ilanlar/konut" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                        Konut
+                      </Link>
+
                       {/* Arsa */}
-                      <div className="relative group/subsub">
-                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
-                          <span className="text-gray-600 hover:text-primary transition-colors">Arsa</span>
-                          <ChevronRight size={12} />
-                        </div>
-                        
-                        {/* Arsa Sub-sub-dropdown */}
-                        <div className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover/subsub:opacity-100 group-hover/subsub:visible transition-all duration-200">
-                          <Link href="/ilanlar/arsa?arsaType=tarla" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Tarla
-                          </Link>
-                          <Link href="/ilanlar/arsa?arsaType=bahce" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Bahçe
-                          </Link>
-                          <Link href="/ilanlar/arsa?arsaType=konut-imarli" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Konut İmarlı
-                          </Link>
-                          <Link href="/ilanlar/arsa?arsaType=ticari-imarli" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Ticari İmarlı
-                          </Link>
-                        </div>
-                      </div>
-                      
+                      <Link href="/ilanlar/arsa" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                        Arsa
+                      </Link>
+
                       {/* İş Yeri */}
-                      <div className="relative group/subsub">
-                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
-                          <span className="text-gray-600 hover:text-primary transition-colors">İş Yeri</span>
-                          <ChevronRight size={12} />
-                        </div>
-                        
-                        {/* İş Yeri Sub-sub-dropdown */}
-                        <div className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover/subsub:opacity-100 group-hover/subsub:visible transition-all duration-200">
-                          <Link href="/ilanlar/ticari?ticariType=dukkan" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Dükkan
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=ofis" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Ofis
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=depo" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Depo
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=fabrika" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Fabrika
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=atolye" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Atölye
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=plaza" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Plaza
-                          </Link>
-                          <Link href="/ilanlar/ticari?ticariType=cafe" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                            Cafe
-                          </Link>
-                        </div>
-                      </div>
-                      
+                      <Link href="/ilanlar/ticari" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                        İş Yeri
+                      </Link>
+
                       <div className="border-t border-gray-100 mt-2 pt-2">
                         <Link href="/ilanlar/emlak" className="block px-4 py-2 text-primary hover:bg-gray-50 transition-colors font-medium">
                           Tüm Emlak İlanları
@@ -458,156 +386,33 @@ const Header = () => {
                     </button>
                     {expandedVasita && (
                       <div className="pl-4 space-y-2">
-                        {/* Konut Alt Kategorisi */}
-                        <div>
-                          <button
-                            className="w-full flex items-center justify-between font-medium text-gray-600 hover:text-primary py-2 text-sm"
-                            onClick={() => setExpandedKonut(!expandedKonut)}
-                          >
-                            Konut
-                            <ChevronRight className={`transition-transform duration-200 ${expandedKonut ? 'rotate-90' : ''}`} size={14} />
-                          </button>
-                          {expandedKonut && (
-                            <div className="pl-4 space-y-1">
-                              <Link 
-                                href="/ilanlar/konut?konutType=daire" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Daire
-                              </Link>
-                              <Link 
-                                href="/ilanlar/konut?konutType=villa" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Villa
-                              </Link>
-                              <Link 
-                                href="/ilanlar/konut?konutType=mustakil" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Müstakil Ev
-                              </Link>
-                              <Link 
-                                href="/ilanlar/konut?konutType=bina" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Bina
-                              </Link>
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* Arsa Alt Kategorisi */}
-                        <div>
-                          <button
-                            className="w-full flex items-center justify-between font-medium text-gray-600 hover:text-primary py-2 text-sm"
-                            onClick={() => setExpandedArsa(!expandedArsa)}
-                          >
-                            Arsa
-                            <ChevronRight className={`transition-transform duration-200 ${expandedArsa ? 'rotate-90' : ''}`} size={14} />
-                          </button>
-                          {expandedArsa && (
-                            <div className="pl-4 space-y-1">
-                              <Link 
-                                href="/ilanlar/arsa?arsaType=tarla" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Tarla
-                              </Link>
-                              <Link 
-                                href="/ilanlar/arsa?arsaType=bahce" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Bahçe
-                              </Link>
-                              <Link 
-                                href="/ilanlar/arsa?arsaType=konut-imarli" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Konut İmarlı
-                              </Link>
-                              <Link 
-                                href="/ilanlar/arsa?arsaType=ticari-imarli" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Ticari İmarlı
-                              </Link>
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* İş Yeri Alt Kategorisi */}
-                        <div>
-                          <button
-                            className="w-full flex items-center justify-between font-medium text-gray-600 hover:text-primary py-2 text-sm"
-                            onClick={() => setExpandedTicari(!expandedTicari)}
-                          >
-                            İş Yeri
-                            <ChevronRight className={`transition-transform duration-200 ${expandedTicari ? 'rotate-90' : ''}`} size={14} />
-                          </button>
-                          {expandedTicari && (
-                            <div className="pl-4 space-y-1">
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=dukkan" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Dükkan
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=ofis" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Ofis
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=depo" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Depo
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=fabrika" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Fabrika
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=atolye" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Atölye
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=plaza" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Plaza
-                              </Link>
-                              <Link 
-                                href="/ilanlar/ticari?ticariType=cafe" 
-                                className="block text-gray-500 hover:text-primary py-1 text-xs"
-                                onClick={closeMenu}
-                              >
-                                Cafe
-                              </Link>
-                            </div>
-                          )}
-                        </div>
-                        
+                        {/* Konut */}
+                        <Link
+                          href="/ilanlar/konut"
+                          className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
+                          onClick={closeMenu}
+                        >
+                          Konut
+                        </Link>
+
+                        {/* Arsa */}
+                        <Link
+                          href="/ilanlar/arsa"
+                          className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
+                          onClick={closeMenu}
+                        >
+                          Arsa
+                        </Link>
+
+                        {/* İş Yeri */}
+                        <Link
+                          href="/ilanlar/ticari"
+                          className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
+                          onClick={closeMenu}
+                        >
+                          İş Yeri
+                        </Link>
+
                         {/* Tüm Emlak İlanları */}
                         <Link 
                           href="/ilanlar/emlak" 
