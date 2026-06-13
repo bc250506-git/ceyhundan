@@ -115,17 +115,8 @@ export default function Home() {
         <div className="w-full flex flex-col justify-center items-center px-3 sm:px-6 md:px-8 lg:px-12 py-20">
           <div className="w-full max-w-7xl mx-auto text-center">
           
-            {/* Hero Title and Search Bar Container */}
-            <div className="w-full max-w-4xl mx-auto">
-              {/* Hero Title */}
-              <div className="mb-8 sm:mb-12 animate-fade-in">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headings font-bold text-white mb-4 sm:mb-6 drop-shadow-lg leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
-                  Hayalinizdeki Evi <span className="text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl inline-block">Bulun</span>
-                </h1>
-              </div>
-
-              {/* Big Search Bar */}
-              <div className="w-full mb-12 sm:mb-16 animate-slide-up">
+            {/* Big Search Bar */}
+            <div className="w-full max-w-5xl mx-auto mb-12 sm:mb-16 animate-slide-up">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
@@ -134,8 +125,8 @@ export default function Home() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-6 pr-20 py-5 sm:py-6 md:py-7 text-base sm:text-lg md:text-xl rounded-full focus:outline-none focus:ring-4 focus:ring-primary/50 transition-all bg-white/95 backdrop-blur-sm shadow-2xl"
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-full transition-all duration-300 font-medium text-sm sm:text-base md:text-lg flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
                   aria-label="Ara"
                 >
@@ -144,18 +135,18 @@ export default function Home() {
                 </button>
               </form>
             </div>
-            </div>
 
             {/* Quick Category Links */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto animate-fade-in">
-              {categories.map((category, index) => (
-                category.id === "konut" ? (
+              {categories.map((category, index) => {
+                const hasStatusFilters = category.id === "konut" || category.id === "ticari";
+                return (
                   <div
                     key={category.id}
-                    className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
+                    className="group relative flex flex-col h-full bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <Link href={`/ilanlar/${category.id}`} className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
+                    <Link href={`/ilanlar/${category.id}`} className="flex flex-grow flex-col items-center justify-center text-center space-y-1 sm:space-y-3">
                       <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
                         {category.icon}
                       </div>
@@ -170,44 +161,25 @@ export default function Home() {
                     </Link>
 
                     {/* Satılık / Kiralık quick filters */}
-                    <div className="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3">
-                      <Link
-                        href={`/ilanlar/${category.id}?listingStatus=satilik`}
-                        className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
-                      >
-                        Satılık
-                      </Link>
-                      <Link
-                        href={`/ilanlar/${category.id}?listingStatus=kiralik`}
-                        className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
-                      >
-                        Kiralık
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    key={category.id}
-                    href={`/ilanlar/${category.id}`}
-                    className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
-                      <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
-                        {category.icon}
+                    {hasStatusFilters && (
+                      <div className="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                        <Link
+                          href={`/ilanlar/${category.id}?listingStatus=satilik`}
+                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                        >
+                          Satılık
+                        </Link>
+                        <Link
+                          href={`/ilanlar/${category.id}?listingStatus=kiralik`}
+                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                        >
+                          Kiralık
+                        </Link>
                       </div>
-                      <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
-                        {category.title}
-                      </h3>
-                      {!isLoading && (
-                        <span className="text-[10px] sm:text-sm text-white/80 font-medium">
-                          {category.count} ilan
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                )
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
           </div>
