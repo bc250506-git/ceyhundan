@@ -149,26 +149,64 @@ export default function Home() {
             {/* Quick Category Links */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto animate-fade-in">
               {categories.map((category, index) => (
-                <Link 
-                  key={category.id} 
-                  href={`/ilanlar/${category.id}`}
-                  className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
-                    <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
-                      {category.icon}
+                category.id === "konut" ? (
+                  <div
+                    key={category.id}
+                    className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <Link href={`/ilanlar/${category.id}`} className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
+                      <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
+                        {category.icon}
+                      </div>
+                      <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
+                        {category.title}
+                      </h3>
+                      {!isLoading && (
+                        <span className="text-[10px] sm:text-sm text-white/80 font-medium">
+                          {category.count} ilan
+                        </span>
+                      )}
+                    </Link>
+
+                    {/* Satılık / Kiralık quick filters */}
+                    <div className="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                      <Link
+                        href={`/ilanlar/${category.id}?listingStatus=satilik`}
+                        className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                      >
+                        Satılık
+                      </Link>
+                      <Link
+                        href={`/ilanlar/${category.id}?listingStatus=kiralik`}
+                        className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                      >
+                        Kiralık
+                      </Link>
                     </div>
-                    <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
-                      {category.title}
-                    </h3>
-                    {!isLoading && (
-                      <span className="text-[10px] sm:text-sm text-white/80 font-medium">
-                        {category.count} ilan
-                      </span>
-                    )}
                   </div>
-                </Link>
+                ) : (
+                  <Link
+                    key={category.id}
+                    href={`/ilanlar/${category.id}`}
+                    className="group relative bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-lg sm:rounded-xl p-2.5 sm:p-6 transition-all duration-300 border border-white/20 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:z-10 will-change-transform"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="flex flex-col items-center text-center space-y-1 sm:space-y-3">
+                      <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
+                        {category.icon}
+                      </div>
+                      <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
+                        {category.title}
+                      </h3>
+                      {!isLoading && (
+                        <span className="text-[10px] sm:text-sm text-white/80 font-medium">
+                          {category.count} ilan
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                )
               ))}
             </div>
 

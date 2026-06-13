@@ -15,12 +15,14 @@ const Header = () => {
   // Desktop dropdown states
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubDropdown, setActiveSubDropdown] = useState<string | null>(null);
+  const [activeSubSubDropdown, setActiveSubSubDropdown] = useState<string | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   
   // Mobile dropdown states
   const [expandedEmlak, setExpandedEmlak] = useState(false);
   const [expandedVasita, setExpandedVasita] = useState(false);
   const [expandedKurumsal, setExpandedKurumsal] = useState(false);
+  const [expandedKonut, setExpandedKonut] = useState(false);
 
   // Handle scroll event to change header style when scrolled
   useEffect(() => {
@@ -77,10 +79,12 @@ const Header = () => {
     setIsMenuOpen(false);
     setActiveDropdown(null);
     setActiveSubDropdown(null);
+    setActiveSubSubDropdown(null);
     setExpandedEmlak(false);
     setExpandedVasita(false);
     setExpandedKurumsal(false);
-    
+    setExpandedKonut(false);
+
     // Clear hover timeout
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
@@ -97,13 +101,15 @@ const Header = () => {
     }
     setActiveDropdown(dropdown);
     setActiveSubDropdown(null);
+    setActiveSubSubDropdown(null);
   };
 
   const handleMouseLeave = () => {
     const timeout = setTimeout(() => {
       setActiveDropdown(null);
       setActiveSubDropdown(null);
-    }, 150); // 150ms delay before closing
+      setActiveSubSubDropdown(null);
+    }, 400); // delay before closing the whole menu tree once the cursor leaves it entirely
     setHoverTimeout(timeout);
   };
 
@@ -113,21 +119,15 @@ const Header = () => {
       setHoverTimeout(null);
     }
     setActiveSubDropdown(subDropdown);
+    setActiveSubSubDropdown(null);
   };
 
-  const handleDropdownMouseEnter = () => {
+  const handleSubSubMouseEnter = (subSubDropdown: string) => {
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
     }
-  };
-
-  const handleDropdownMouseLeave = () => {
-    const timeout = setTimeout(() => {
-      setActiveDropdown(null);
-      setActiveSubDropdown(null);
-    }, 150); // 150ms delay before closing
-    setHoverTimeout(timeout);
+    setActiveSubSubDropdown(subSubDropdown);
   };
 
   return (
@@ -193,13 +193,11 @@ const Header = () => {
             
             {/* İlanlar Dropdown Menu */}
             {activeDropdown === 'ilanlar' && (
-              <div 
+              <div
                 className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                onMouseEnter={handleDropdownMouseEnter}
-                onMouseLeave={handleDropdownMouseLeave}
               >
                 {/* Emlak */}
-                <div 
+                <div
                   className="relative group/sub"
                   onMouseEnter={() => handleSubMouseEnter('emlak')}
                 >
@@ -207,18 +205,36 @@ const Header = () => {
                     <span className="text-gray-700 hover:text-primary transition-colors">Emlak</span>
                     <ChevronRight size={14} />
                   </div>
-                  
+
                   {/* Emlak Sub-dropdown */}
                   {activeSubDropdown === 'emlak' && (
-                    <div 
+                    <div
                       className="absolute top-0 left-full ml-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                      onMouseEnter={handleDropdownMouseEnter}
-                      onMouseLeave={handleDropdownMouseLeave}
                     >
                       {/* Konut */}
-                      <Link href="/ilanlar/konut" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                        Konut
-                      </Link>
+                      <div
+                        className="relative"
+                        onMouseEnter={() => handleSubSubMouseEnter('konut')}
+                      >
+                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
+                          <span className="text-gray-600 hover:text-primary transition-colors">Konut</span>
+                          <ChevronRight size={12} />
+                        </div>
+
+                        {/* Konut Sub-sub-dropdown */}
+                        {activeSubSubDropdown === 'konut' && (
+                          <div
+                            className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                          >
+                            <Link href="/ilanlar/konut?listingStatus=satilik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                              Satılık
+                            </Link>
+                            <Link href="/ilanlar/konut?listingStatus=kiralik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                              Kiralık
+                            </Link>
+                          </div>
+                        )}
+                      </div>
 
                       {/* Arsa */}
                       <Link href="/ilanlar/arsa" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
@@ -262,8 +278,6 @@ const Header = () => {
             {activeDropdown === 'kurumsal' && (
               <div 
                 className="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                onMouseEnter={handleDropdownMouseEnter}
-                onMouseLeave={handleDropdownMouseLeave}
               >
                 <Link href="/hakkimizda" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
                   Hakkımızda
@@ -387,13 +401,33 @@ const Header = () => {
                     {expandedVasita && (
                       <div className="pl-4 space-y-2">
                         {/* Konut */}
-                        <Link
-                          href="/ilanlar/konut"
-                          className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
-                          onClick={closeMenu}
-                        >
-                          Konut
-                        </Link>
+                        <div>
+                          <button
+                            className="w-full flex items-center justify-between font-medium text-gray-600 hover:text-primary py-2 text-sm"
+                            onClick={() => setExpandedKonut(!expandedKonut)}
+                          >
+                            Konut
+                            <ChevronRight className={`transition-transform duration-200 ${expandedKonut ? 'rotate-90' : ''}`} size={14} />
+                          </button>
+                          {expandedKonut && (
+                            <div className="pl-4 space-y-1">
+                              <Link
+                                href="/ilanlar/konut?listingStatus=satilik"
+                                className="block text-gray-500 hover:text-primary py-1 text-xs"
+                                onClick={closeMenu}
+                              >
+                                Satılık
+                              </Link>
+                              <Link
+                                href="/ilanlar/konut?listingStatus=kiralik"
+                                className="block text-gray-500 hover:text-primary py-1 text-xs"
+                                onClick={closeMenu}
+                              >
+                                Kiralık
+                              </Link>
+                            </div>
+                          )}
+                        </div>
 
                         {/* Arsa */}
                         <Link
