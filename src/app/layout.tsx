@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   title: "Ceyhun Gayrimenkul  | Tokat'ta Emlak ve Gayrimenkul",
   description: "Tokat'ın güvenilir emlak ofisi. Satılık-kiralık ev, daire, arsa ve iş yeri ilanları.",
   keywords: "emlak, gayrimenkul, Tokat emlak, konut, iş yeri, arsa, otomotiv, satılık, kiralık, daire, villa, arazi",
+  metadataBase: new URL("https://www.ceyhundan.com"),
   openGraph: {
     type: "website",
     locale: "tr_TR",

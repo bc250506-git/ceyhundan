@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { createSlug, createSocialImageUrl, createWhatsAppImageUrl } from '@/lib/utils';
 
 // Define the base URL for the site
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'ceyhun-emlak.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'ceyhundan.com';
 
 export async function generateMetadata(
   { params }: { params: { id: string } },

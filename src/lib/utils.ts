@@ -54,7 +54,7 @@ export function createSocialImageUrl(imageUrl: string | null | undefined, option
   siteUrl?: string;
   optimize?: boolean;
 }): string {
-  const siteUrl = options?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'ceyhun-emlak.com';
+  const siteUrl = options?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'ceyhundan.com';
   
   // No image URL provided, use fallback
   if (!imageUrl) {
@@ -118,7 +118,7 @@ export function createWhatsAppImageUrl(imageUrl: string | null | undefined, opti
   fallbackUrl?: string;
   siteUrl?: string;
 }): string {
-  const siteUrl = options?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'ceyhun-emlak.com';
+  const siteUrl = options?.siteUrl || process.env.NEXT_PUBLIC_SITE_URL || 'ceyhundan.com';
   
   // Fallback görseli
   if (!imageUrl) {
