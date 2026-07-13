@@ -107,6 +107,12 @@ export default function FloatingContact({ defaultPhone, stickyPanelOpen = false 
     alert("Telefon numarası kopyalandı!");
   };
 
+  const isIlanDetail = pathname?.startsWith('/ilan/') && pathname !== '/ilan';
+
+  if (isIlanDetail) {
+    return null;
+  }
+
   return (
     <>
       {/* Sol alt köşe - Telefon, WhatsApp ve Taksi */}
