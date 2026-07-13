@@ -716,40 +716,6 @@ export default function ListingDetail() {
                 <div className="lg:w-2/3 space-y-8">
                   {/* Gallery */}
                   <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                    {/* Mobile Controls Strip */}
-                    {getImages().length > 0 && (
-                      <div className="md:hidden flex items-center justify-between p-3 bg-gray-50 border-b border-gray-100">
-                        <div className="flex gap-3">
-                          <button 
-                            onClick={goToPrevImage}
-                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
-                            aria-label="Previous image"
-                          >
-                            <ChevronLeft size={20} className="text-yellow-600" />
-                          </button>
-                          <button 
-                            onClick={goToNextImage}
-                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
-                            aria-label="Next image"
-                          >
-                            <ChevronRight size={20} className="text-yellow-600" />
-                          </button>
-                        </div>
-                        <div className="flex items-center">
-                          <span className="text-sm text-gray-500 mr-3 font-medium">
-                            {activeImageIndex + 1} / {getImages().length}
-                          </span>
-                          <button
-                            onClick={() => setIsLightboxOpen(true)}
-                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
-                            aria-label="Fotoğrafı büyüt"
-                          >
-                            <Expand size={18} className="text-gray-700" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    
                     {/* Main Image */}
                     <div className="relative h-72 sm:h-96 md:h-[500px] w-full">
                       {getImages().length > 0 ? (
@@ -857,6 +823,40 @@ export default function ListingDetail() {
                             </SwiperSlide>
                           ))}
                         </Swiper>
+                      </div>
+                    )}
+
+                    {/* Mobile Controls Strip */}
+                    {getImages().length > 0 && (
+                      <div className="md:hidden flex items-center justify-between p-3 bg-gray-50 border-t border-gray-100">
+                        <div className="flex gap-3">
+                          <button 
+                            onClick={goToPrevImage}
+                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
+                            aria-label="Previous image"
+                          >
+                            <ChevronLeft size={20} className="text-yellow-600" />
+                          </button>
+                          <button 
+                            onClick={goToNextImage}
+                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
+                            aria-label="Next image"
+                          >
+                            <ChevronRight size={20} className="text-yellow-600" />
+                          </button>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-sm text-gray-500 mr-3 font-medium">
+                            {activeImageIndex + 1} / {getImages().length}
+                          </span>
+                          <button
+                            onClick={() => setIsLightboxOpen(true)}
+                            className="flex items-center justify-center bg-white rounded-full p-2.5 shadow-sm border border-gray-200 active:bg-gray-100 transition-colors"
+                            aria-label="Fotoğrafı büyüt"
+                          >
+                            <Expand size={18} className="text-gray-700" />
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
