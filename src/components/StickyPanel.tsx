@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ChevronRight, Facebook, Instagram, X, Calculator } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import KrediHesaplayici from "./KrediHesaplayici";
 
 interface ExchangeRate {
@@ -21,6 +22,10 @@ export default function StickyPanel() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rates, setRates] = useState<ExchangeRate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
+
+  // Check if we are on a listing detail page
+  const isIlanDetail = pathname?.startsWith('/ilan/') && pathname !== '/ilan';
 
   useEffect(() => {
     const fetchExchangeRates = async () => {
@@ -115,21 +120,23 @@ export default function StickyPanel() {
   return (
     <>
       {/* Sticky Button */}
-      <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40">
-        <button
-          onClick={handleToggle}
-          className="bg-primary hover:bg-primary/90 text-white p-3 rounded-r-lg shadow-lg transition-all duration-300 flex items-center justify-center"
-          aria-label="Panel aç/kapat"
-          title="Hızlı Linkler"
-        >
-          <ChevronRight
-            size={20}
-            className={`transition-transform duration-300 ${
-              isOpen ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-      </div>
+      {!isIlanDetail && (
+        <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40">
+          <button
+            onClick={handleToggle}
+            className="bg-primary hover:bg-primary/90 text-white p-3 rounded-r-lg shadow-lg transition-all duration-300 flex items-center justify-center"
+            aria-label="Panel aç/kapat"
+            title="Hızlı Linkler"
+          >
+            <ChevronRight
+              size={20}
+              className={`transition-transform duration-300 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+        </div>
+      )}
 
       {/* Overlay */}
       {isOpen && (
