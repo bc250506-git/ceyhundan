@@ -206,25 +206,14 @@ export default function AdminPanel() {
         
         let listingsData = data;
         
-        // Calculate stats from the listings
-        let totalViews = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.views_count || 0), 0);
-        let contactClicks = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.contact_count || 0), 0);
+        // Calculate real stats from listings (reset baseline to 0 starting from today)
+        let totalViews = 0;
+        let contactClicks = 0;
+        let siteVisits = 0;
 
         const activeListings = listingsData.filter((listing: Listing) => listing.is_active).length;
         
-        // Get top performing listings (top 5)
-        const topPerforming = [...listingsData]
-          .sort((a: Listing, b: Listing) => (b.views_count || 0) - (a.views_count || 0))
-          .slice(0, 5)
-          .map((listing: Listing) => ({
-            id: listing.id,
-            title: listing.title,
-            views: listing.views_count || 0,
-            contacts: listing.contact_count || 0
-          }));
-        
-        // Fetch site visits count
-        let siteVisits = 0;
+        // Check for real tracked site visits
         try {
           const visitRes = await fetch('/api/track-visit');
           if (visitRes.ok) {
@@ -238,7 +227,7 @@ export default function AdminPanel() {
           contactClicks,
           siteVisits,
           activeListings,
-          topListings: topPerforming
+          topListings: []
         });
         
         // Check URL parameters for filter settings

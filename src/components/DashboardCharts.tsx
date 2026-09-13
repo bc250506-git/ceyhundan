@@ -35,10 +35,10 @@ export default function DashboardCharts({
 
   // 1. Calculate Category Distribution
   const categoryCounts = {
-    konut: listings.filter((l) => l.property_type === "konut").length || 42,
-    ticari: listings.filter((l) => l.property_type === "ticari").length || 22,
-    arsa: listings.filter((l) => l.property_type === "arsa").length || 18,
-    vasita: listings.filter((l) => l.property_type === "vasita").length || 16,
+    konut: listings.filter((l) => l.property_type === "konut").length,
+    ticari: listings.filter((l) => l.property_type === "ticari").length,
+    arsa: listings.filter((l) => l.property_type === "arsa").length,
+    vasita: listings.filter((l) => l.property_type === "vasita").length,
   };
   const totalCategoryListings = Object.values(categoryCounts).reduce((a, b) => a + b, 0) || 1;
 
