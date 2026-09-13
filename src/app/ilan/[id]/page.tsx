@@ -157,6 +157,13 @@ export default function ListingDetail() {
         
         setListing(data);
         setIsLoading(false);
+
+        // Track page view count automatically
+        fetch('/api/listings/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ listing_id: data.id, action: 'view' })
+        }).catch(err => console.error('Error tracking view count:', err));
       } catch (error) {
         console.error('Error fetching listing details:', error);
         setError(error instanceof Error ? error.message : 'İlan detayları yüklenirken bir hata oluştu');

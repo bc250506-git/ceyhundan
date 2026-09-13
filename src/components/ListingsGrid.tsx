@@ -94,88 +94,36 @@ const ListingsGrid = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchListings = async () => {
+    const fetchFeaturedListings = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/listings');
+        const response = await fetch('/api/listings/featured?limit=10');
         
         if (!response.ok) {
-          throw new Error('Failed to fetch listings');
+          throw new Error('Failed to fetch featured listings');
         }
         
         const data = await response.json();
-        // Filter featured listings
-        const featured = data.filter((listing: Listing) => listing.is_featured);
-        
-        // Fetch additional details for each featured listing
-        const enhancedListings = await Promise.all(
-          featured.map(async (listing: Listing) => {
-            try {
-              // Fetch detailed listing info
-              const detailResponse = await fetch(`/api/listings?id=${listing.id}`);
-              if (!detailResponse.ok) throw new Error(`Failed to fetch details for listing ${listing.id}`);
-              
-              const detailData = await detailResponse.json();
-              let enhancedListing = { ...listing };
-              
-              // Extract location from addresses if available
-              if (detailData.addresses && detailData.addresses.length > 0) {
-                const address = detailData.addresses[0] as Address;
-                enhancedListing.location = formatLocationFromAddress(address);
-                enhancedListing.addresses = detailData.addresses;
-              }
-              
-              // Extract property-specific details
-              if (listing.property_type === 'konut' && detailData.konut_details) {
-                const konutDetails = detailData.konut_details[0] as KonutDetails;
-
-                const isPrefabrik = (konutDetails.konut_type ?? '').toLowerCase() === 'prefabrik';
-
-                // Prefabrik ilanlarda varsayılan oda/alan bilgilerini göstermeyelim
-                if (!isPrefabrik) {
-                  enhancedListing.rooms = konutDetails.room_count;
-                  enhancedListing.area = konutDetails.gross_sqm;
-                }
-
-                enhancedListing.subcategory = konutDetails.konut_type || 'Daire';
-              } else if (listing.property_type === 'ticari' && detailData.ticari_details) {
-                const ticariDetails = detailData.ticari_details[0] as TicariDetails;
-                enhancedListing.rooms = ticariDetails.room_count.toString();
-                enhancedListing.area = ticariDetails.gross_sqm;
-                enhancedListing.subcategory = ticariDetails.ticari_type || 'Ofis';
-              } else if (listing.property_type === 'arsa' && detailData.arsa_details) {
-                const arsaDetails = detailData.arsa_details[0] as ArsaDetails;
-                enhancedListing.area = arsaDetails.sqm;
-                enhancedListing.subcategory = arsaDetails.arsa_type || 'Arsa';
-              } else if (listing.property_type === 'vasita' && detailData.vasita_details) {
-                const vasitaDetails = detailData.vasita_details[0] as VasitaDetails;
-                enhancedListing.subcategory = vasitaDetails.brand || 'Otomobil';
-                enhancedListing.brand = vasitaDetails.brand;
-                enhancedListing.model = vasitaDetails.model;
-                
-                // Handle year data safely
-                const parsedYear = parseInt(vasitaDetails.year as unknown as string);
-                enhancedListing.year = !isNaN(parsedYear) ? parsedYear : undefined;
-              }
-              
-              return enhancedListing;
-            } catch (error) {
-              console.error(`Error fetching details for listing ${listing.id}:`, error);
-              return listing; // Return original listing if detail fetch fails
-            }
-          })
-        );
-        
-        setFeaturedListings(enhancedListings);
+        setFeaturedListings(data);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching listings:', error);
-        setError('İlanları yüklerken bir hata oluştu');
+        console.error('Error fetching featured listings:', error);
+        // Fallback to general API if endpoint fails
+        try {
+          const fallbackRes = await fetch('/api/listings');
+          if (fallbackRes.ok) {
+            const allData = await fallbackRes.json();
+            const featuredOnly = allData.filter((l: Listing) => l.is_featured).slice(0, 10);
+            setFeaturedListings(featuredOnly);
+          }
+        } catch (e) {
+          setError('İlanları yüklerken bir hata oluştu');
+        }
         setIsLoading(false);
       }
     };
     
-    fetchListings();
+    fetchFeaturedListings();
   }, []);
 
   // Helper function to format property type

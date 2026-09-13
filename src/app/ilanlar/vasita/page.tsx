@@ -305,7 +305,7 @@ function VasitaListingsContent() {
       const startTime = performance.now();
       
       // Supabase API ile arama (sadece vasıta)
-      const searchResults = await searchListingsByType(listings, searchQuery, 'vasita');
+      const searchResults = await searchListingsByType(listings as any, searchQuery, 'vasita');
       
       const endTime = performance.now();
       const searchTime = (endTime - startTime).toFixed(2);
@@ -318,7 +318,7 @@ function VasitaListingsContent() {
       });
       
       // Apply remaining filters on search results
-      applyRemainingFilters(searchResults);
+      applyRemainingFilters(searchResults as Listing[]);
       return;
     }
     

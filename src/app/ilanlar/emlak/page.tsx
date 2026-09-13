@@ -379,7 +379,7 @@ function EmlakListingsContent() {
       const startTime = performance.now();
       
       // Supabase API ile arama (sadece emlak)
-      const searchResults = await searchListingsByType(listings, searchQuery, 'emlak');
+      const searchResults = await searchListingsByType(listings as any, searchQuery, 'emlak');
       
       const endTime = performance.now();
       const searchTime = (endTime - startTime).toFixed(2);
@@ -392,7 +392,7 @@ function EmlakListingsContent() {
       });
       
       // Apply remaining filters on search results
-      applyRemainingFilters(searchResults);
+      applyRemainingFilters(searchResults as Listing[]);
       return;
     }
     

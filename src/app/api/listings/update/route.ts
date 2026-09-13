@@ -230,7 +230,6 @@ export async function PUT(request: NextRequest) {
         console.error('Error: ticari_type is required');
         return NextResponse.json(
           { error: 'İş yeri tipi seçilmeden ilan güncellenemez.' },
-          { error: 'Ticari mülk tipi seçilmeden ilan güncellenemez.' },
           { status: 400 }
         );
       }

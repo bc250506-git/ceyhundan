@@ -7,10 +7,12 @@ import "swiper/css/autoplay";
 import FloatingContact from "@/components/FloatingContact";
 import BackToTop from "@/components/BackToTop";
 import StickyPanel from "@/components/StickyPanel";
+import SiteVisitTracker from "@/components/SiteVisitTracker";
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-inter",
   preload: true,
@@ -18,7 +20,7 @@ const inter = Inter({
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-poppins",
   preload: true,
@@ -69,6 +71,7 @@ export default function RootLayout({
         <StickyPanel />
         <FloatingContact defaultPhone="5323850420" />
         <BackToTop />
+        <SiteVisitTracker />
         <Analytics />
         
         

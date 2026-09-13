@@ -6,7 +6,7 @@ import ListingsGrid from "@/components/ListingsGrid";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
-import { Home as HomeIcon, Building2, Map, Car, Search } from "lucide-react";
+import { Home as HomeIcon, Building2, Map, Car, Search, ArrowRight, MapPin, Trees, Compass, Landmark, Navigation, GraduationCap, CheckCircle2, Send, PhoneCall, Sparkles } from "lucide-react";
 import { Loading } from "@/components/ui/loading";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +22,31 @@ export default function Home() {
   });
   
   const [isLoading, setIsLoading] = useState(true);
+
+  // Property Submission Form State
+  const [propertyFormData, setPropertyFormData] = useState({
+    fullName: "",
+    phone: "",
+    propertyType: "konut",
+    actionType: "satilik",
+    location: ""
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handlePropertyFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!propertyFormData.fullName.trim() || !propertyFormData.phone.trim()) return;
+
+    const typeText = propertyFormData.propertyType === 'konut' ? 'Konut' :
+                     propertyFormData.propertyType === 'ticari' ? 'İş Yeri' :
+                     propertyFormData.propertyType === 'arsa' ? 'Arsa' : 'Otomotiv';
+    const actionText = propertyFormData.actionType === 'satilik' ? 'Satmak İstiyorum' : 'Kiralamak İstiyorum';
+
+    const messageText = `Merhaba Ceyhun Gayrimenkul, Mülk Satış/Kiralama Talebi:%0A- Ad Soyad: ${encodeURIComponent(propertyFormData.fullName)}%0A- Telefon: ${encodeURIComponent(propertyFormData.phone)}%0A- Mülk Tipi: ${encodeURIComponent(typeText)}%0A- İşlem: ${encodeURIComponent(actionText)}%0A- Konum: ${encodeURIComponent(propertyFormData.location || 'Tokat')}`;
+
+    window.open(`https://wa.me/905323850420?text=${messageText}`, '_blank');
+    setFormSubmitted(true);
+  };
 
   // Handle search form submission
   const handleSearch = async (e: React.FormEvent) => {
@@ -65,39 +90,121 @@ export default function Home() {
     fetchListingCounts();
   }, []);
 
-  // Category data with counts
+// Category data with counts
   const categories = [
     {
       id: "konut",
       title: "Konut",
       description: "Daire, villa, müstakil ev, bina ve daha fazlası",
-      image: "/images/categories/konut.jpg",
-      icon: <HomeIcon className="text-primary" size={32} />,
+      icon: <HomeIcon className="transition-transform group-hover:scale-110" size={32} />,
+      watermarkIcon: <HomeIcon size={120} strokeWidth={1} />,
+      iconBg: "bg-amber-500/10 text-amber-600 group-hover:bg-amber-600 group-hover:text-white",
+      gradientBar: "from-amber-500 via-orange-500 to-amber-600",
+      badgeStyle: "bg-amber-50 text-amber-700 border-amber-200/70",
       count: categoryCountData.konut
     },
     {
       id: "ticari",
       title: "İş Yeri",
       description: "Ofis, mağaza, depo, fabrika ve daha fazlası",
-      image: "/images/categories/isyeri.jpg",
-      icon: <Building2 className="text-primary" size={32} />,
+      icon: <Building2 className="transition-transform group-hover:scale-110" size={32} />,
+      watermarkIcon: <Building2 size={120} strokeWidth={1} />,
+      iconBg: "bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
+      gradientBar: "from-blue-500 via-indigo-500 to-blue-600",
+      badgeStyle: "bg-blue-50 text-blue-700 border-blue-200/70",
       count: categoryCountData.ticari
     },
     {
       id: "arsa",
       title: "Arsa",
       description: "Arsa, arazi, tarla, bahçe ve daha fazlası",
-      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Map className="text-primary" size={32} />,
+      icon: <Map className="transition-transform group-hover:scale-110" size={32} />,
+      watermarkIcon: <Map size={120} strokeWidth={1} />,
+      iconBg: "bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
+      gradientBar: "from-emerald-500 via-teal-500 to-emerald-600",
+      badgeStyle: "bg-emerald-50 text-emerald-700 border-emerald-200/70",
       count: categoryCountData.arsa
     },
     {
       id: "vasita",
       title: "Otomotiv",
       description: "Otomobil, motosiklet, ticari araç ve daha fazlası",
-      image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80",
-      icon: <Car className="text-primary" size={32} />,
+      icon: <Car className="transition-transform group-hover:scale-110" size={32} />,
+      watermarkIcon: <Car size={120} strokeWidth={1} />,
+      iconBg: "bg-purple-500/10 text-purple-600 group-hover:bg-purple-600 group-hover:text-white",
+      gradientBar: "from-purple-500 via-pink-500 to-purple-600",
+      badgeStyle: "bg-purple-50 text-purple-700 border-purple-200/70",
       count: categoryCountData.vasita
+    }
+  ];
+
+  // Popular Locations Data focused on Tokat Merkez Zones & Neighborhoods
+  const popularLocations = [
+    {
+      id: "merkez-carsi",
+      name: "Tokat Merkez (Çarşı / Tarihi Merkez)",
+      query: "Alipaşa",
+      description: "Niksar Yolu kavşağından Şehir Merkezine uzanan aks; Ali Paşa, Yarıahmet, Mahmutpaşa, Devegörmez, Behzat ve Meydan mahalleleri",
+      icon: <Landmark className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <Landmark size={120} strokeWidth={1} />,
+      gradientBar: "from-amber-500 via-orange-500 to-amber-600",
+      iconBg: "bg-amber-500/10 text-amber-600 group-hover:bg-amber-600 group-hover:text-white",
+      subTags: ["Ali Paşa", "Devegörmez", "Mahmutpaşa", "Yarıahmet", "Behzat", "Meydan"]
+    },
+    {
+      id: "merkez-karsiyaka",
+      name: "Tokat Merkez (Karşıyaka & 600 Evler)",
+      query: "Karşıyaka",
+      description: "Niksar Yolu kavşağından Güneşli aksına uzanan modern konut bölgesi; Altıyüzevler, Yeşilırmak Mahallesi, Karşıyaka ve Gülbahar Hatun",
+      icon: <Building2 className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <Building2 size={120} strokeWidth={1} />,
+      gradientBar: "from-blue-500 via-indigo-500 to-blue-600",
+      iconBg: "bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
+      subTags: ["Karşıyaka", "Yeşilırmak", "600 Evler", "Gülbahar Hatun", "Bahçelievler"]
+    },
+    {
+      id: "merkez-gunesli",
+      name: "Tokat Merkez (Güneşli - Bedesten)",
+      query: "Güneşli",
+      description: "Güneşli Mahallesi, Bedestenlioğlu, Çeçenistan Caddesi, Yeni Sanayi çevresi ve gelişen yeni site projeleri bölgesi",
+      icon: <HomeIcon className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <HomeIcon size={120} strokeWidth={1} />,
+      gradientBar: "from-purple-500 via-pink-500 to-purple-600",
+      iconBg: "bg-purple-500/10 text-purple-600 group-hover:bg-purple-600 group-hover:text-white",
+      subTags: ["Güneşli", "Bedestenlioğlu", "Çeçenistan Cad.", "Doğancıbağları"]
+    },
+    {
+      id: "merkez-cay",
+      name: "Tokat Merkez (Çay Mah. & Üniversite)",
+      query: "Çay",
+      description: "Taşlıçiftlik Kampüsü çevresi, Çay Mahallesi, Erenler, Topçam ve üniversite yakınındaki yatırımlık site daireleri",
+      icon: <GraduationCap className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <GraduationCap size={120} strokeWidth={1} />,
+      gradientBar: "from-emerald-500 via-teal-500 to-emerald-600",
+      iconBg: "bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
+      subTags: ["Çay Mah.", "Erenler", "Topçam", "Taşlıçiftlik", "Büyük Beybağı"]
+    },
+    {
+      id: "merkez-arsa",
+      name: "Tokat Merkez (Arsa & Hobi Bahçeleri)",
+      query: "Arsa",
+      description: "Bedirkale, Kervansaray, Gökdere, Akbelen, Büyükbağlar ve çevre köylerdeki hobi bahçesi, tarla ve arsa fırsatları",
+      icon: <Trees className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <Trees size={120} strokeWidth={1} />,
+      gradientBar: "from-rose-500 via-red-500 to-rose-600",
+      iconBg: "bg-rose-500/10 text-rose-600 group-hover:bg-rose-600 group-hover:text-white",
+      subTags: ["Bedirkale", "Kervansaray", "Gökdere", "Akbelen", "Büyükbağlar"]
+    },
+    {
+      id: "tokat-ilceler",
+      name: "Tokat (Tüm İlçeler)",
+      query: "Erbaa",
+      description: "Erbaa, Turhal, Niksar, Almus, Zile, Pazar, Reşadiye ve tüm Tokat çevre ilçelerindeki özel gayrimenkul fırsatları",
+      icon: <MapPin className="transition-transform group-hover:scale-110" size={30} />,
+      watermarkIcon: <MapPin size={120} strokeWidth={1} />,
+      gradientBar: "from-cyan-500 via-teal-500 to-cyan-600",
+      iconBg: "bg-cyan-500/10 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white",
+      subTags: ["Erbaa", "Turhal", "Niksar", "Almus", "Zile", "Pazar", "Reşadiye"]
     }
   ];
 
@@ -150,11 +257,11 @@ export default function Home() {
                       <div className="text-primary group-hover:scale-110 transition-transform duration-300 will-change-transform">
                         {category.icon}
                       </div>
-                      <h3 className="font-headings text-white font-semibold text-xs sm:text-base md:text-lg">
+                      <h3 className="font-headings text-white font-bold text-sm sm:text-base md:text-lg tracking-wide">
                         {category.title}
                       </h3>
                       {!isLoading && (
-                        <span className="text-[10px] sm:text-sm text-white/80 font-medium">
+                        <span className="text-xs sm:text-sm text-white font-bold drop-shadow-xs">
                           {category.count} ilan
                         </span>
                       )}
@@ -165,13 +272,13 @@ export default function Home() {
                       <div className="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3">
                         <Link
                           href={`/ilanlar/${category.id}?listingStatus=satilik`}
-                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-bold text-white bg-white/20 hover:bg-primary border border-white/30 hover:border-primary transition-colors"
                         >
                           Satılık
                         </Link>
                         <Link
                           href={`/ilanlar/${category.id}?listingStatus=kiralik`}
-                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-medium text-white bg-white/15 hover:bg-primary border border-white/25 hover:border-primary transition-colors"
+                          className="flex-1 text-center rounded-md sm:rounded-lg py-1 sm:py-1.5 text-[9px] sm:text-xs md:text-sm font-bold text-white bg-white/20 hover:bg-primary border border-white/30 hover:border-primary transition-colors"
                         >
                           Kiralık
                         </Link>
@@ -193,49 +300,182 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
               <div className="relative">
-                <h2 className="font-headings text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">Kategoriler</h2>
-                <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl">
+                <h2 className="font-headings text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 sm:mb-3 text-gray-900">Kategoriler</h2>
+                <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl font-medium">
                   İhtiyacınıza uygun kategoride arama yapın
                 </p>
                 <div className="absolute -left-3 sm:-left-4 top-0 w-1.5 sm:w-2 h-8 sm:h-12 bg-primary rounded-full"></div>
               </div>
               
               {!isLoading && (
-                <div className="text-sm sm:text-base text-gray-600 font-medium">
-                  Toplam: <span className="font-semibold">{categoryCountData.total}</span> ilan
+                <div className="text-sm sm:text-base text-gray-700 font-semibold">
+                  Toplam: <span className="font-bold text-primary">{categoryCountData.total}</span> ilan
                 </div>
               )}
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-              {categories.map((category) => (
-                <Link key={category.id} href={`/ilanlar/${category.id}`} className="block">
-                  <div className="category-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2 group">
-                    {/* Image container */}
-                    <div className="relative h-36 sm:h-48 w-full overflow-hidden rounded-t-xl sm:rounded-t-2xl transform-gpu">
-                      <Image
-                        src={category.image}
-                        alt={category.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      {/* Count badge */}
-                      <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 bg-white/90 backdrop-blur-sm text-gray-800 text-xs sm:text-sm font-medium px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-md z-10">
-                        {isLoading ? <Loading size="small" className="flex-row gap-1" text="Yükleniyor..." /> : `${category.count} ilan`}
+              {categories.map((category) => {
+                const hasStatusFilters = category.id === "konut" || category.id === "ticari";
+                return (
+                  <div
+                    key={category.id}
+                    className="group relative bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-gray-200/80 shadow-md hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2 overflow-hidden flex flex-col justify-between"
+                  >
+                    {/* Top gradient highlight on hover */}
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${category.gradientBar} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+
+                    {/* Background vector watermark icon */}
+                    <div className="absolute -bottom-8 -right-8 text-gray-100 group-hover:text-primary/10 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none select-none">
+                      {category.watermarkIcon}
+                    </div>
+
+                    <div>
+                      {/* Top Row: Icon badge & count badge */}
+                      <div className="flex items-center justify-between mb-4 sm:mb-5">
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center ${category.iconBg} shadow-sm transition-all duration-300`}>
+                          {category.icon}
+                        </div>
+                        
+                        <div className="bg-gray-100 text-gray-900 text-xs sm:text-sm font-bold px-3 py-1 rounded-full border border-gray-200">
+                          {isLoading ? (
+                            <Loading size="small" className="flex-row gap-1" text="Yükleniyor..." />
+                          ) : (
+                            `${category.count} ilan`
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <Link href={`/ilanlar/${category.id}`} className="block group/title">
+                        <h3 className="font-headings text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-1 sm:mb-2">
+                          {category.title}
+                        </h3>
+                        <p className="text-gray-600 text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                          {category.description}
+                        </p>
+                      </Link>
+                    </div>
+
+                    {/* Bottom Action Footer */}
+                    <div className="pt-3 border-t border-gray-100 flex items-center justify-between relative z-10">
+                      <Link 
+                        href={`/ilanlar/${category.id}`} 
+                        className="text-primary font-bold text-sm sm:text-base flex items-center gap-1 transition-all group-hover:translate-x-1"
+                      >
+                        <span>Tümünü Gör</span>
+                        <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      </Link>
+
+                      {/* Quick Filters */}
+                      {hasStatusFilters && (
+                        <div className="flex items-center gap-1.5">
+                          <Link
+                            href={`/ilanlar/${category.id}?listingStatus=satilik`}
+                            className="px-2 py-1 text-xs font-bold text-gray-700 hover:text-primary bg-gray-100 hover:bg-primary/10 rounded-md transition-colors"
+                          >
+                            Satılık
+                          </Link>
+                          <Link
+                            href={`/ilanlar/${category.id}?listingStatus=kiralik`}
+                            className="px-2 py-1 text-xs font-bold text-gray-700 hover:text-primary bg-gray-100 hover:bg-primary/10 rounded-md transition-colors"
+                          >
+                            Kiralık
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Popular Locations Section */}
+        <div className="py-12 sm:py-20 bg-gradient-to-b from-white via-slate-50 to-gray-100/60 border-t border-b border-gray-100">
+          <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20 flex items-center gap-1">
+                    <Navigation size={12} /> Popüler Bölgeler
+                  </span>
+                </div>
+                <h2 className="font-headings text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
+                  Lokasyonlara Göre İlan Keşfedin
+                </h2>
+                <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl font-medium">
+                  Tokat ve çevresinde en çok tercih edilen öne çıkan bölgelerdeki satılık ve kiralık fırsatları inceleyin
+                </p>
+                <div className="absolute -left-3 sm:-left-4 top-0 w-1.5 sm:w-2 h-10 sm:h-14 bg-primary rounded-full"></div>
+              </div>
+
+              <Link
+                href="/ilanlar"
+                className="inline-flex items-center gap-2 mt-4 md:mt-0 text-sm sm:text-base font-bold text-primary hover:text-primary/80 bg-white px-5 py-2.5 rounded-xl shadow-xs border border-gray-200 hover:border-primary/40 transition-all hover:shadow-md"
+              >
+                <span>Tüm İlanlar</span>
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {popularLocations.map((loc) => (
+                <Link
+                  key={loc.id}
+                  href={`/ilanlar?search=${encodeURIComponent(loc.query)}`}
+                  className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-gray-200/80 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden flex flex-col justify-between"
+                >
+                  {/* Top gradient highlight on hover */}
+                  <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${loc.gradientBar} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+
+                  {/* Background vector watermark icon */}
+                  <div className="absolute -bottom-8 -right-8 text-gray-100 group-hover:text-primary/10 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 pointer-events-none select-none">
+                    {loc.watermarkIcon}
+                  </div>
+
+                  <div>
+                    {/* Top Row: Icon box & Badge */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center ${loc.iconBg} shadow-sm transition-all duration-300`}>
+                        {loc.icon}
+                      </div>
+
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
+                        <MapPin size={13} />
+                        <span>İlanları İncele</span>
                       </div>
                     </div>
-                    
-                    {/* Content container */}
-                    <div className="p-4 sm:p-6">
-                      <div className="flex items-center mb-3 sm:mb-4">
-                        {category.icon}
-                      </div>
-                      <h3 className="font-headings text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{category.title}</h3>
-                      <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4">{category.description}</p>
-                      <div className="flex items-center text-primary font-medium text-sm sm:text-base">
-                        Tümünü Gör →
-                      </div>
+
+                    {/* Location Title & Description */}
+                    <h3 className="font-headings text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-2">
+                      {loc.name}
+                    </h3>
+                    <p className="text-gray-600 text-xs sm:text-sm font-medium leading-relaxed mb-5">
+                      {loc.description}
+                    </p>
+
+                    {/* Sub Tags / Popular Neighborhoods */}
+                    <div className="flex flex-wrap gap-1.5 mb-6 relative z-10">
+                      {loc.subTags.map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200/60 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-colors"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Link Footer */}
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between relative z-10">
+                    <span className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      Fırsat İlanlarını Göster
+                    </span>
+                    <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-primary group-hover:text-white flex items-center justify-center text-gray-700 transition-all duration-300">
+                      <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                     </div>
                   </div>
                 </Link>
@@ -244,11 +484,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Listings Grid */}
+        {/* Listings Grid (Öne Çıkarılan İlanlar) */}
         <div className="py-10 sm:py-16 bg-gradient-to-b from-gray-50 to-white">
         <ListingsGrid />
         </div>
-        
+
         {/* Trust Banner */}
         <div className="bg-gradient-to-r from-gray-100 to-white py-12 sm:py-20">
           <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
@@ -299,12 +539,181 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
+        {/* Sell / Rent Your Property Quick Submission Banner */}
+        <div 
+          className="py-12 sm:py-20 text-white relative overflow-hidden"
+          style={{
+            background: "linear-gradient(to right, #18181b, #27272a)"
+          }}
+        >
+          {/* Subtle background glow */}
+          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 blur-3xl rounded-full pointer-events-none"></div>
+          <div className="absolute bottom-0 right-10 w-96 h-96 bg-zinc-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Column: Heading & Value Proposition */}
+              <div className="lg:col-span-6 space-y-6">
+                <div className="inline-flex items-center gap-2 bg-primary/20 text-primary border border-primary/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold">
+                  <Sparkles size={16} />
+                  <span>Ücretsiz Değerleme & Hızlı Satış</span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-headings font-extrabold text-white leading-tight">
+                  Mülkünüzü Değerinde ve <span className="text-primary">Hızlıca</span> Satalım veya Kiralayalım
+                </h2>
+
+                <p className="text-gray-300 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
+                  Tokat ve çevresinde eviniz, arsanız, iş yeriniz veya aracınız mı var? Bilgilerinizi bırakın; uzman kadromuz piyasa analizini ücretsiz yapıp gayrimenkulünüzü en doğru fiyata alıcılarla buluştursun.
+                </p>
+
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center gap-3 text-gray-200 text-xs sm:text-sm font-medium">
+                    <CheckCircle2 size={18} className="text-primary flex-shrink-0" />
+                    <span>Ücretsiz Pazar & Bölge Ekspertiz Analizi</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-200 text-xs sm:text-sm font-medium">
+                    <CheckCircle2 size={18} className="text-primary flex-shrink-0" />
+                    <span>15+ Yıllık Tokat Sektör Deneyimi ve Geniş Müşteri Portföyü</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-200 text-xs sm:text-sm font-medium">
+                    <CheckCircle2 size={18} className="text-primary flex-shrink-0" />
+                    <span>Profesyonel İlan Çekimi ve Vitrin İlan Desteği</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex items-center gap-4 text-xs sm:text-sm text-gray-400 font-medium">
+                  <div className="flex items-center gap-2">
+                    <PhoneCall size={16} className="text-primary" />
+                    <span>Doğrudan İletişim: <strong className="text-white">0532 385 04 20</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Submission Form */}
+              <div className="lg:col-span-6">
+                <div className="bg-white text-gray-900 rounded-2xl p-6 sm:p-8 shadow-2xl border border-gray-100 relative">
+                  <h3 className="text-xl sm:text-2xl font-headings font-bold text-gray-900 mb-1">
+                    Mülk Bilgilerinizi Gönderin
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-6">
+                    Formu doldurun, gayrimenkul danışmanımız sizi hemen arasın.
+                  </p>
+
+                  {formSubmitted ? (
+                    <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-6 text-center space-y-3">
+                      <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                        <CheckCircle2 size={24} />
+                      </div>
+                      <h4 className="font-bold text-base sm:text-lg">Başvurunuz Alındı!</h4>
+                      <p className="text-xs sm:text-sm text-emerald-700">
+                        Talebiniz ekibimize iletilmiştir. Uzman danışmanımız en kısa sürede telefon numaranızdan sizinle iletişime geçecektir.
+                      </p>
+                      <button
+                        onClick={() => setFormSubmitted(false)}
+                        className="text-xs font-bold text-emerald-700 underline mt-2"
+                      >
+                        Yeni Başvuru Yap
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handlePropertyFormSubmit} className="space-y-4">
+                      <div>
+                        <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1">
+                          Adınız Soyadınız *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Örn: Ahmet Yılmaz"
+                          value={propertyFormData.fullName}
+                          onChange={(e) => setPropertyFormData({ ...propertyFormData, fullName: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium text-gray-900 bg-gray-50 focus:bg-white"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1">
+                            Telefon Numarası *
+                          </label>
+                          <input
+                            type="tel"
+                            required
+                            placeholder="Örn: 0532 000 00 00"
+                            value={propertyFormData.phone}
+                            onChange={(e) => setPropertyFormData({ ...propertyFormData, phone: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium text-gray-900 bg-gray-50 focus:bg-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1">
+                            Mülk Tipi
+                          </label>
+                          <select
+                            value={propertyFormData.propertyType}
+                            onChange={(e) => setPropertyFormData({ ...propertyFormData, propertyType: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium text-gray-900 bg-gray-50 focus:bg-white"
+                          >
+                            <option value="konut">Konut (Daire / Müstakil / Villa)</option>
+                            <option value="arsa">Arsa / Arazi / Tarla</option>
+                            <option value="ticari">İş Yeri / Dükkan / Depo</option>
+                            <option value="vasita">Otomotiv / Vasıta</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1">
+                            İşlem Türü
+                          </label>
+                          <select
+                            value={propertyFormData.actionType}
+                            onChange={(e) => setPropertyFormData({ ...propertyFormData, actionType: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium text-gray-900 bg-gray-50 focus:bg-white"
+                          >
+                            <option value="satilik">Satmak İstiyorum</option>
+                            <option value="kiralik">Kiralamak İstiyorum</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1">
+                            Konum / Mahalle
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Örn: Karşıyaka / Tokat"
+                            value={propertyFormData.location}
+                            onChange={(e) => setPropertyFormData({ ...propertyFormData, location: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-medium text-gray-900 bg-gray-50 focus:bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.01] flex items-center justify-center gap-2 text-sm sm:text-base mt-2"
+                      >
+                        <Send size={18} />
+                        <span>Hızlı Değerleme Talebi Gönder</span>
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* CTA Section */}
         <div 
           className="relative py-12 sm:py-20 overflow-hidden"
           style={{
-            background: "linear-gradient(to right, #1a1c2a, #2d2d3a)"
+            background: "linear-gradient(to right, #18181b, #27272a)"
           }}
         >
           {/* Background pattern */}

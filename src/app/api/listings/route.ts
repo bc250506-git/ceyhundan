@@ -186,7 +186,6 @@ export async function POST(request: NextRequest) {
         console.error('Error: ticari_type is required');
         return NextResponse.json(
           { error: 'İş yeri tipi seçilmeden ilan eklenemez.' },
-          { error: 'Ticari mülk tipi seçilmeden ilan eklenemez.' },
           { status: 400 }
         );
       }

@@ -1,13 +1,12 @@
-// Listing interface
 export interface Listing {
   id: string;
   title: string;
   description?: string;
   price: number;
-  property_type: string;
-  listing_status: string;
+  property_type?: string;
+  listing_status?: string;
   thumbnail_url?: string | null;
-  created_at: string;
+  created_at?: string;
   location?: string;
   area?: number;
   rooms?: string;
@@ -16,7 +15,7 @@ export interface Listing {
   arsa_type?: string;
   brand?: string;
   model?: string;
-  year?: number;
+  year?: number | string;
   fuel_type?: string;
   transmission?: string;
   color?: string;
