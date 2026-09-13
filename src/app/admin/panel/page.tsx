@@ -209,23 +209,6 @@ export default function AdminPanel() {
         // Calculate stats from the listings
         let totalViews = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.views_count || 0), 0);
         let contactClicks = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.contact_count || 0), 0);
-        
-        // If total views is 0 and we have listings, seed baseline stats and refetch
-        if (totalViews === 0 && listingsData.length > 0) {
-          try {
-            await fetch('/api/listings/seed-stats', { method: 'POST' });
-            const refetched = await fetch('/api/listings');
-            if (refetched.ok) {
-              listingsData = await refetched.json();
-              setListings(listingsData);
-              setFilteredListings(listingsData);
-              totalViews = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.views_count || 0), 0);
-              contactClicks = listingsData.reduce((sum: number, listing: Listing) => sum + (listing.contact_count || 0), 0);
-            }
-          } catch (e) {
-            console.error('Failed to seed baseline stats:', e);
-          }
-        }
 
         const activeListings = listingsData.filter((listing: Listing) => listing.is_active).length;
         
@@ -249,10 +232,6 @@ export default function AdminPanel() {
             siteVisits = visitData.count || 0;
           }
         } catch (e) {}
-
-        if (siteVisits === 0) {
-          siteVisits = Math.floor(totalViews * 1.35) + 3200;
-        }
 
         setBaseStats({
           totalViews,
@@ -284,27 +263,12 @@ export default function AdminPanel() {
 
   // Update displayed stats whenever baseStats or timeRange changes
   useEffect(() => {
-    let factor = 1.0;
-    if (timeRange === "7") factor = 0.233;
-    else if (timeRange === "30") factor = 1.0;
-    else if (timeRange === "90") factor = 3.0;
-    else if (timeRange === "all") factor = 4.2;
-
-    const totalViews = Math.round(baseStats.totalViews * factor);
-    const contactClicks = Math.round(baseStats.contactClicks * factor);
-    const siteVisits = Math.round(baseStats.siteVisits * factor);
-    const topPerforming = baseStats.topListings.map(l => ({
-      ...l,
-      views: Math.round(l.views * factor),
-      contacts: Math.round(l.contacts * factor)
-    }));
-
     setStats({
-      totalViews,
-      contactClicks,
+      totalViews: baseStats.totalViews,
+      contactClicks: baseStats.contactClicks,
       activeListings: baseStats.activeListings,
-      siteVisits,
-      topPerforming
+      siteVisits: baseStats.siteVisits,
+      topPerforming: baseStats.topListings
     });
   }, [baseStats, timeRange]);
 

@@ -27,23 +27,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    // Return site visits count
-    let total = inMemorySiteVisits;
-    
-    // Check if we can get total from DB
-    try {
-      const { data } = await supabase.from('listings').select('views_count');
-      if (data && data.length > 0) {
-        const listingViews = data.reduce((acc, curr) => acc + (curr.views_count || 0), 0);
-        // Site visits is typically ~1.4x of total listing views
-        total += Math.floor(listingViews * 1.35) + 3200;
-      }
-    } catch (e) {}
-
-    if (total === 0) total = 18450;
-
-    return NextResponse.json({ count: total });
+    return NextResponse.json({ count: inMemorySiteVisits });
   } catch (err) {
-    return NextResponse.json({ count: 18450 });
+    return NextResponse.json({ count: 0 });
   }
 }
