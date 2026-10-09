@@ -468,11 +468,16 @@ function CategoryListingsContent() {
       );
     }
     
-    // Filter by konut type (only for konut)
-    if (konutType && category === 'konut') {
-      filtered = filtered.filter(listing => 
-        listing.konut_type && listing.konut_type !== 'undefined' && listing.konut_type === konutType
-      );
+    // Filter by konut type
+    if (konutType && (category === 'konut' || category === 'emlak')) {
+      filtered = filtered.filter(listing => {
+        const kType = (listing.konut_type || (listing.konut_details && listing.konut_details[0]?.konut_type) || '').toLowerCase();
+        const target = konutType.toLowerCase();
+        if (target === 'prefabrik') {
+          return kType.includes('prefabrik') || kType.includes('konteyner') || kType.includes('tiny');
+        }
+        return kType === target || kType.includes(target);
+      });
     }
     
     // Konut ve ticari için ısıtma tipi filtresi

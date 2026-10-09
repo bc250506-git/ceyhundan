@@ -451,11 +451,16 @@ function EmlakListingsContent() {
       );
     }
     
-    // Filter by konut type (for konut or when mainCategory is konut)
-    if (konutType && konutType !== 'all' && (propertyType === 'konut' || mainCategory === 'konut')) {
-      filtered = filtered.filter(listing => 
-        listing.konut_type && listing.konut_type !== 'undefined' && listing.konut_type === konutType
-      );
+    // Filter by konut type
+    if (konutType && konutType !== 'all') {
+      filtered = filtered.filter(listing => {
+        const kType = (listing.konut_type || listing.subcategory || '').toLowerCase();
+        const target = konutType.toLowerCase();
+        if (target === 'prefabrik') {
+          return kType.includes('prefabrik') || kType.includes('konteyner') || kType.includes('tiny');
+        }
+        return kType === target || kType.includes(target);
+      });
     }
     
     // Filter by ticari type (for ticari or when mainCategory is ticari)

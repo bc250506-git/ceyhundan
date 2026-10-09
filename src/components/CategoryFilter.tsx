@@ -903,6 +903,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ category, initialFilter
                 <SelectItem value="mustakil_ev">Müstakil Ev</SelectItem>
                 <SelectItem value="villa">Villa</SelectItem>
                 <SelectItem value="bina">Bina</SelectItem>
+                <SelectItem value="prefabrik">Konteyner & Tiny House (Prefabrik)</SelectItem>
               </SelectContent>
             </Select>
           </div>

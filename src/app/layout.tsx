@@ -8,6 +8,7 @@ import FloatingContact from "@/components/FloatingContact";
 import BackToTop from "@/components/BackToTop";
 import StickyPanel from "@/components/StickyPanel";
 import SiteVisitTracker from "@/components/SiteVisitTracker";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
@@ -70,6 +71,7 @@ export default function RootLayout({
         {children}
         <StickyPanel />
         <FloatingContact defaultPhone="5323850420" />
+        <MobileBottomNav />
         <BackToTop />
         <SiteVisitTracker />
         <Analytics />
@@ -102,7 +104,7 @@ export default function RootLayout({
   "priceRange": "$$",
   "sameAs": [
     "https://www.facebook.com/CeyhunGayrimenkulEmlak",
-    "https://www.instagram.com/ceyhungayrimenkul"
+    "https://www.instagram.com/ceyhungayrimenkul/"
   ]
 }
           `}

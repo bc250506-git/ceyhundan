@@ -40,6 +40,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
 import DashboardCharts from "@/components/DashboardCharts";
+import StoryCardModal from "@/components/StoryCardModal";
 
 // Define types for listings and stats
 interface Listing {
@@ -147,6 +148,14 @@ export default function AdminPanel() {
 
   // Delete confirmation dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+  const [selectedStoryListing, setSelectedStoryListing] = useState<Listing | null>(null);
+
+  const handleOpenStoryModal = (listing: Listing) => {
+    setSelectedStoryListing(listing);
+    setIsStoryModalOpen(true);
+  };
+
   const [listingToDelete, setListingToDelete] = useState<string | null>(null);
 
   // Random greeting message state
@@ -1597,7 +1606,10 @@ export default function AdminPanel() {
                                             İşlemler
                                           </Button>
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="w-40">
+                                        <DropdownMenuContent align="end" className="w-48">
+                                          <DropdownMenuItem onClick={() => handleOpenStoryModal(listing)} className="text-[#FFB000] font-bold cursor-pointer">
+                                            📸 Story Kartı Üret
+                                          </DropdownMenuItem>
                                           <DropdownMenuItem 
                                             onClick={() => handleEditListing(listing.id)}
                                           >
@@ -1831,6 +1843,8 @@ export default function AdminPanel() {
          </DialogContent>
        </Dialog>
       
+      <StoryCardModal listing={selectedStoryListing} isOpen={isStoryModalOpen} onClose={() => setIsStoryModalOpen(false)} />
+
       <Script id="enable-scrollbars" strategy="afterInteractive">
         {`
           document.documentElement.style.overflow = 'auto';

@@ -137,174 +137,142 @@ const Header = () => {
         isScrolled ? "shadow-md" : ""
       }`}
     >
-      {/* Üst Bilgi Şeridi */}
-      <div className="w-full bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-3 sm:py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm">
-          {/* Telefon Numaraları */}
-          <a 
-            href="tel:+905323850420" 
-            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
-          >
-            <Phone size={16} className="flex-shrink-0 sm:size-[18px]" />
-            <span className="whitespace-nowrap">0 (532) 385 04 20</span>
-          </a>
-          
-          <a 
-            href="tel:+903562280444" 
-            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
-          >
-            <Building2 size={16} className="flex-shrink-0 sm:size-[18px]" />
-            <span className="whitespace-nowrap">0 (356) 228 0 444</span>
-          </a>
-          
-          {/* Adres */}
-          <a 
-            href="https://www.google.com/maps/place/Ceyhun+Gayrimenkul/@40.3135985,36.5464112,17z/data=!3m1!4b1!4m6!3m5!1s0x407db7127e757205:0x3c13ae469d9644fb!8m2!3d40.3135944!4d36.5489861!16s%2Fg%2F11c57mxzdy?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
-          >
-            <MapPin size={16} className="flex-shrink-0 sm:size-[18px]" />
-            <span className="whitespace-nowrap">Tokat Belediye Hizmet Binası Arkası Ceyhun Suit</span>
-          </a>
-        </div>
-      </div>
-
       {/* Ana Header */}
-      <div className="py-2 sm:py-5">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Desktop Navigation - Left Side */}
-        <nav className="hidden md:flex items-center space-x-8 relative">
-          {/* Ana Sayfa */}
-          <Link href="/" className="font-headings text-lg font-medium transition-colors hover:text-primary">
-            Ana Sayfa
-          </Link>
+      <div className="py-2.5 sm:py-4">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex justify-between items-center">
           
-          {/* İlanlar Dropdown */}
-          <div 
-            className="relative group"
-            onMouseEnter={() => handleMouseEnter('ilanlar')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button className="font-headings text-lg font-medium transition-colors hover:text-primary flex items-center gap-1">
-              İlanlar
-              <ChevronDown size={16} className={`transition-transform duration-200 ${activeDropdown === 'ilanlar' ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {/* İlanlar Dropdown Menu */}
-            {activeDropdown === 'ilanlar' && (
-              <div
-                className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-              >
-                {/* Emlak */}
-                <div
-                  className="relative group/sub"
-                  onMouseEnter={() => handleSubMouseEnter('emlak')}
-                >
-                  <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
-                    <span className="text-gray-700 hover:text-primary transition-colors">Emlak</span>
-                    <ChevronRight size={14} />
-                  </div>
+          {/* Sol Taraf: Logo */}
+          <div className="flex items-center">
+            <Link href="/" className="hover-scale flex-shrink-0">
+              <Image
+                src="/images/logo_black.png"
+                alt="Ceyhun Emlak Logo"
+                width={160}
+                height={50}
+                className="transition-all duration-300 w-[140px] sm:w-[185px] h-auto"
+                priority
+              />
+            </Link>
+          </div>
 
-                  {/* Emlak Sub-dropdown */}
-                  {activeSubDropdown === 'emlak' && (
-                    <div
-                      className="absolute top-0 left-full ml-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                    >
-                      {/* Konut */}
+          {/* Orta Taraf: Desktop Navigation (Sayfanın Tam Ortası) */}
+          <nav className="hidden md:flex items-center justify-center space-x-10 relative">
+            {/* Ana Sayfa */}
+            <Link href="/" className="font-headings text-lg font-medium transition-colors hover:text-primary">
+              Ana Sayfa
+            </Link>
+            
+            {/* İlanlar Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => handleMouseEnter('ilanlar')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="font-headings text-lg font-medium transition-colors hover:text-primary flex items-center gap-1">
+                İlanlar
+                <ChevronDown size={16} className={`transition-transform duration-200 ${activeDropdown === 'ilanlar' ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {/* İlanlar Dropdown Menu */}
+              {activeDropdown === 'ilanlar' && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                >
+                  {/* Emlak */}
+                  <div
+                    className="relative group/sub"
+                    onMouseEnter={() => handleSubMouseEnter('emlak')}
+                  >
+                    <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
+                      <span className="text-gray-700 hover:text-primary transition-colors">Emlak</span>
+                      <ChevronRight size={14} />
+                    </div>
+
+                    {/* Emlak Sub-dropdown */}
+                    {activeSubDropdown === 'emlak' && (
                       <div
-                        className="relative"
-                        onMouseEnter={() => handleSubSubMouseEnter('konut')}
+                        className="absolute top-0 left-full ml-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
                       >
-                        <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
-                          <span className="text-gray-600 hover:text-primary transition-colors">Konut</span>
-                          <ChevronRight size={12} />
+                        {/* Konut */}
+                        <div
+                          className="relative"
+                          onMouseEnter={() => handleSubSubMouseEnter('konut')}
+                        >
+                          <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between">
+                            <span className="text-gray-600 hover:text-primary transition-colors">Konut</span>
+                            <ChevronRight size={12} />
+                          </div>
+
+                          {/* Konut Sub-sub-dropdown */}
+                          {activeSubSubDropdown === 'konut' && (
+                            <div
+                              className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                            >
+                              <Link href="/ilanlar/konut?listingStatus=satilik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                                Satılık
+                              </Link>
+                              <Link href="/ilanlar/konut?listingStatus=kiralik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                                Kiralık
+                              </Link>
+                            </div>
+                          )}
                         </div>
 
-                        {/* Konut Sub-sub-dropdown */}
-                        {activeSubSubDropdown === 'konut' && (
-                          <div
-                            className="absolute top-0 left-full ml-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-                          >
-                            <Link href="/ilanlar/konut?listingStatus=satilik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                              Satılık
-                            </Link>
-                            <Link href="/ilanlar/konut?listingStatus=kiralik" className="block px-3 py-1.5 text-sm text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                              Kiralık
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Arsa */}
-                      <Link href="/ilanlar/arsa" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                        Arsa
-                      </Link>
-
-                      {/* İş Yeri */}
-                      <Link href="/ilanlar/ticari" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                        İş Yeri
-                      </Link>
-
-                      <div className="border-t border-gray-100 mt-2 pt-2">
-                        <Link href="/ilanlar/emlak" className="block px-4 py-2 text-primary hover:bg-gray-50 transition-colors font-medium">
-                          Tüm Emlak İlanları
+                        {/* Arsa */}
+                        <Link href="/ilanlar/arsa" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                          Arsa
                         </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Vasıta */}
-                <Link href="/ilanlar/vasita" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
-                  Vasıta
-                </Link>
-              </div>
-            )}
-          </div>
-          
-          {/* Kurumsal Dropdown */}
-          <div 
-            className="relative group"
-            onMouseEnter={() => handleMouseEnter('kurumsal')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button className="font-headings text-lg font-medium transition-colors hover:text-primary flex items-center gap-1">
-              Kurumsal
-              <ChevronDown size={16} className={`transition-transform duration-200 ${activeDropdown === 'kurumsal' ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {/* Kurumsal Dropdown Menu */}
-            {activeDropdown === 'kurumsal' && (
-              <div 
-                className="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-              >
-                <Link href="/hakkimizda" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
-                  Hakkımızda
-                </Link>
-                <Link href="/iletisim" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
-                  İletişim
-                </Link>
-              </div>
-            )}
-          </div>
-        </nav>
 
-        {/* Logo - Center */}
-        <div className="flex justify-center">
-          <Link href="/" className="hover-scale">
-            <Image
-              src="/images/logo_black.png"
-              alt="Ceyhun Emlak Logo"
-              width={160}
-              height={50}
-              className="transition-all duration-300 w-[150px] sm:w-[200px] h-auto"
-              priority
-            />
-          </Link>
-        </div>
-        
-        {/* Search button - Right Side */}
+                        {/* İş Yeri */}
+                        <Link href="/ilanlar/ticari" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                          İş Yeri
+                        </Link>
+
+                        <div className="border-t border-gray-100 mt-2 pt-2">
+                          <Link href="/ilanlar/emlak" className="block px-4 py-2 text-primary hover:bg-gray-50 transition-colors font-medium">
+                            Tüm Emlak İlanları
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Vasıta */}
+                  <Link href="/ilanlar/vasita" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
+                    Vasıta
+                  </Link>
+                </div>
+              )}
+            </div>
+            
+            {/* Kurumsal Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => handleMouseEnter('kurumsal')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="font-headings text-lg font-medium transition-colors hover:text-primary flex items-center gap-1">
+                Kurumsal
+                <ChevronDown size={16} className={`transition-transform duration-200 ${activeDropdown === 'kurumsal' ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {/* Kurumsal Dropdown Menu */}
+              {activeDropdown === 'kurumsal' && (
+                <div 
+                  className="absolute top-full left-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                >
+                  <Link href="/hakkimizda" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
+                    Hakkımızda
+                  </Link>
+                  <Link href="/iletisim" className="block px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors">
+                    İletişim
+                  </Link>
+                </div>
+              )}
+            </div>
+          </nav>
+          
+          {/* Search button - Right Side */}
         <div className="hidden md:flex items-center">
           <form onSubmit={handleSearch} className="relative">
             <input
