@@ -77,7 +77,14 @@ export default function Home() {
           ticari: data.filter((listing: any) => listing.property_type === 'ticari').length,
           arsa: data.filter((listing: any) => listing.property_type === 'arsa').length,
           vasita: data.filter((listing: any) => listing.property_type === 'vasita').length,
-          prefabrik: data.filter((listing: any) => listing.konut_type === 'prefabrik' || (listing.title && listing.title.toLowerCase().includes('prefabrik')) || (listing.title && listing.title.toLowerCase().includes('tiny house'))).length,
+          prefabrik: data.filter((listing: any) => 
+            listing.sub_category === 'Prefabrik' || 
+            listing.sub_category === 'Tiny House' ||
+            listing.konut_type === 'prefabrik' ||
+            listing.konut_details?.[0]?.konut_type === 'prefabrik' ||
+            (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
+            (listing.title && listing.title.toLowerCase().includes('tiny house'))
+          ).length,
           total: data.length
         };
         
