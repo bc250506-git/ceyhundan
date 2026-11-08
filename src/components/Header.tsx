@@ -218,14 +218,19 @@ const Header = () => {
                           )}
                         </div>
 
-                        {/* Arsa */}
+                        {/* Arsa & Arazi */}
                         <Link href="/ilanlar/arsa" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                          Arsa
+                          Arsa & Arazi
                         </Link>
 
-                        {/* İş Yeri */}
+                        {/* İş Yeri, Ofis, Büro & Depo */}
                         <Link href="/ilanlar/ticari" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
-                          İş Yeri
+                          İş Yeri, Ofis, Büro & Depo
+                        </Link>
+
+                        {/* Konteyner & Tiny House */}
+                        <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik" className="block px-4 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                          Konteyner & Tiny House
                         </Link>
 
                         <div className="border-t border-gray-100 mt-2 pt-2">
@@ -397,22 +402,31 @@ const Header = () => {
                           )}
                         </div>
 
-                        {/* Arsa */}
+                        {/* Arsa & Arazi */}
                         <Link
                           href="/ilanlar/arsa"
                           className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
                           onClick={closeMenu}
                         >
-                          Arsa
+                          Arsa & Arazi
                         </Link>
 
-                        {/* İş Yeri */}
+                        {/* İş Yeri, Ofis, Büro & Depo */}
                         <Link
                           href="/ilanlar/ticari"
                           className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
                           onClick={closeMenu}
                         >
-                          İş Yeri
+                          İş Yeri, Ofis, Büro & Depo
+                        </Link>
+
+                        {/* Konteyner & Tiny House */}
+                        <Link
+                          href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik"
+                          className="block font-medium text-gray-600 hover:text-primary py-2 text-sm"
+                          onClick={closeMenu}
+                        >
+                          Konteyner & Tiny House
                         </Link>
 
                         {/* Tüm Emlak İlanları */}

@@ -80,10 +80,12 @@ export default function Home() {
           prefabrik: data.filter((listing: any) => 
             listing.sub_category === 'Prefabrik' || 
             listing.sub_category === 'Tiny House' ||
+            listing.sub_category === 'Konteyner' ||
             listing.konut_type === 'prefabrik' ||
             listing.konut_details?.[0]?.konut_type === 'prefabrik' ||
             (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
-            (listing.title && listing.title.toLowerCase().includes('tiny house'))
+            (listing.title && listing.title.toLowerCase().includes('tiny house')) ||
+            (listing.title && listing.title.toLowerCase().includes('konteyner'))
           ).length,
           total: data.length
         };
@@ -114,8 +116,8 @@ export default function Home() {
     },
     {
       id: "ticari",
-      title: "İş Yeri",
-      description: "Ofis, mağaza, depo, fabrika ve daha fazlası",
+      title: "İş Yeri, Ofis, Büro & Depo",
+      description: "Ofis, dükkan, büro, depo, fabrika ve daha fazlası",
       icon: <Building2 className="transition-transform group-hover:scale-110" size={32} />,
       watermarkIcon: <Building2 size={120} strokeWidth={1} />,
       iconBg: "bg-blue-500/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
@@ -125,7 +127,7 @@ export default function Home() {
     },
     {
       id: "arsa",
-      title: "Arsa",
+      title: "Arsa & Arazi",
       description: "Arsa, arazi, tarla, bahçe ve daha fazlası",
       icon: <Map className="transition-transform group-hover:scale-110" size={32} />,
       watermarkIcon: <Map size={120} strokeWidth={1} />,
@@ -271,133 +273,85 @@ export default function Home() {
                     <div className="space-y-2">
                       
                       {/* 1. KONUT ROW */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                      <div className="flex items-center justify-between p-3 sm:py-3.5 sm:px-4 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all gap-3">
                         {/* Sol: Kategori Adı & İkon */}
-                        <div className="md:col-span-4 lg:col-span-3 flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0">
                           <HomeIcon size={18} className="text-amber-400 flex-shrink-0" />
                           <Link href="/ilanlar/emlak?mainCategory=konut" className="font-bold text-white text-sm sm:text-base hover:text-[#FFB000] transition-colors truncate">
                             Konut
                           </Link>
                           <span className="text-xs text-zinc-400 font-normal flex-shrink-0">({categoryCountData.konut})</span>
                         </div>
-                        {/* Orta: Satılık / Kiralık */}
-                        <div className="md:col-span-3 lg:col-span-3 flex items-center justify-start md:justify-center gap-1.5">
-                          <Link href="/ilanlar/emlak?mainCategory=konut&listingStatus=satilik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                        {/* Sağ: Satılık / Kiralık */}
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                          <Link href="/ilanlar/emlak?mainCategory=konut&listingStatus=satilik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Satılık
                           </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=konut&listingStatus=kiralik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                          <Link href="/ilanlar/emlak?mainCategory=konut&listingStatus=kiralik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Kiralık
-                          </Link>
-                        </div>
-                        {/* Sağ: Gerçek Konut Alt Tipleri (Tek Satır, Ferah Görünüm) */}
-                        <div className="md:col-span-5 lg:col-span-6 flex items-center justify-start md:justify-end gap-1.5 overflow-x-auto no-scrollbar">
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=daire" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Daire
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=mustakil" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Müstakil Ev
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=villa" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Villa
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=bina" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Bina
                           </Link>
                         </div>
                       </div>
 
                       {/* 2. İŞ YERİ ROW */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                      <div className="flex items-center justify-between p-3 sm:py-3.5 sm:px-4 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all gap-3">
                         {/* Sol: Kategori Adı & İkon */}
-                        <div className="md:col-span-4 lg:col-span-3 flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0">
                           <Building2 size={18} className="text-blue-400 flex-shrink-0" />
                           <Link href="/ilanlar/emlak?mainCategory=ticari" className="font-bold text-white text-sm sm:text-base hover:text-[#FFB000] transition-colors truncate">
-                            İş Yeri & Ticari
+                            İş Yeri, Ofis, Büro & Depo
                           </Link>
                           <span className="text-xs text-zinc-400 font-normal flex-shrink-0">({categoryCountData.ticari})</span>
                         </div>
-                        {/* Orta: Satılık / Kiralık */}
-                        <div className="md:col-span-3 lg:col-span-3 flex items-center justify-start md:justify-center gap-1.5">
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&listingStatus=satilik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                        {/* Sağ: Satılık / Kiralık */}
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                          <Link href="/ilanlar/emlak?mainCategory=ticari&listingStatus=satilik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Satılık
                           </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&listingStatus=kiralik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                          <Link href="/ilanlar/emlak?mainCategory=ticari&listingStatus=kiralik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Kiralık
-                          </Link>
-                        </div>
-                        {/* Sağ: Gerçek İş Yeri Alt Tipleri */}
-                        <div className="md:col-span-5 lg:col-span-6 flex items-center justify-start md:justify-end gap-1.5 overflow-x-auto no-scrollbar">
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&ticariType=dukkan" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Dükkan
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&ticariType=ofis" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Ofis
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&ticariType=depo" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Depo
-                          </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=ticari&ticariType=fabrika" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Fabrika
                           </Link>
                         </div>
                       </div>
 
                       {/* 3. ARSA ROW */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                      <div className="flex items-center justify-between p-3 sm:py-3.5 sm:px-4 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all gap-3">
                         {/* Sol: Kategori Adı & İkon */}
-                        <div className="md:col-span-4 lg:col-span-3 flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0">
                           <Map size={18} className="text-emerald-400 flex-shrink-0" />
                           <Link href="/ilanlar/arsa" className="font-bold text-white text-sm sm:text-base hover:text-[#FFB000] transition-colors truncate">
-                            Arsa
+                            Arsa & Arazi
                           </Link>
                           <span className="text-xs text-zinc-400 font-normal flex-shrink-0">({categoryCountData.arsa})</span>
                         </div>
-                        {/* Orta: Satılık / Kiralık */}
-                        <div className="md:col-span-3 lg:col-span-3 flex items-center justify-start md:justify-center gap-1.5">
-                          <Link href="/ilanlar/arsa?listingStatus=satilik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                        {/* Sağ: Satılık / Kiralık */}
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                          <Link href="/ilanlar/arsa?listingStatus=satilik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Satılık
                           </Link>
-                          <Link href="/ilanlar/arsa?listingStatus=kiralik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                          <Link href="/ilanlar/arsa?listingStatus=kiralik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Kiralık
-                          </Link>
-                        </div>
-                        {/* Sağ: Gerçek Arsa Tipleri */}
-                        <div className="md:col-span-5 lg:col-span-6 flex items-center justify-start md:justify-end gap-1.5 overflow-x-auto no-scrollbar">
-                          <Link href="/ilanlar/arsa?arsaType=tarla" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Tarla
-                          </Link>
-                          <Link href="/ilanlar/arsa?arsaType=bahce" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Bahçe
-                          </Link>
-                          <Link href="/ilanlar/arsa?arsaType=konut-imarli" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Konut İmarlı
                           </Link>
                         </div>
                       </div>
 
-                      {/* 4. TINY HOUSE & PREFABRİK ROW */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                      {/* 4. KONTEYNER & TINY HOUSE ROW */}
+                      <div className="flex items-center justify-between p-3 sm:py-3.5 sm:px-4 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all gap-3">
                         {/* Sol: Kategori Adı & İkon */}
-                        <div className="md:col-span-4 lg:col-span-3 flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0">
                           <Box size={18} className="text-teal-400 flex-shrink-0" />
                           <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik" className="font-bold text-white text-sm sm:text-base hover:text-[#FFB000] transition-colors truncate">
-                            Tiny House & Prefabrik
+                            Konteyner & Tiny House
                           </Link>
                           <span className="text-xs text-zinc-400 font-normal flex-shrink-0">({categoryCountData.prefabrik})</span>
                         </div>
-                        {/* Orta: Satılık / Kiralık */}
-                        <div className="md:col-span-3 lg:col-span-3 flex items-center justify-start md:justify-center gap-1.5">
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik&listingStatus=satilik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                        {/* Sağ: Satılık / Kiralık */}
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik&listingStatus=satilik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Satılık
                           </Link>
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik&listingStatus=kiralik" className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik&listingStatus=kiralik" className="px-3 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
                             Kiralık
-                          </Link>
-                        </div>
-                        {/* Sağ: Tüm İlanları Gör */}
-                        <div className="md:col-span-5 lg:col-span-6 flex items-center justify-start md:justify-end">
-                          <Link href="/ilanlar/emlak?mainCategory=konut&konutType=prefabrik" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                            Tüm İlanları Gör →
                           </Link>
                         </div>
                       </div>
@@ -414,29 +368,19 @@ export default function Home() {
                     </div>
 
                     {/* 5. OTOMOTİV ROW */}
-                    <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3 p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                    <div className="flex items-center justify-between p-3 sm:py-3.5 sm:px-4 rounded-xl bg-zinc-950/70 border border-zinc-800 hover:border-zinc-700 transition-all gap-3">
                       {/* Sol: Kategori Adı & İkon */}
-                      <div className="md:col-span-4 lg:col-span-3 flex items-center gap-2.5 min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
                         <Car size={18} className="text-purple-400 flex-shrink-0" />
                         <Link href="/ilanlar/vasita" className="font-bold text-white text-sm sm:text-base hover:text-[#FFB000] transition-colors truncate">
                           Otomotiv
                         </Link>
                         <span className="text-xs text-zinc-400 font-normal flex-shrink-0">({categoryCountData.vasita})</span>
                       </div>
-                      {/* Orta: Vasıta Vitrini Label */}
-                      <div className="md:col-span-3 lg:col-span-3 flex items-center justify-start md:justify-center">
-                        <span className="text-xs text-zinc-500 font-medium">Vasıta Vitrini</span>
-                      </div>
-                      {/* Sağ: Gerçek Otomotiv Alt Tipleri */}
-                      <div className="md:col-span-5 lg:col-span-6 flex items-center justify-start md:justify-end gap-1.5 overflow-x-auto no-scrollbar">
-                        <Link href="/ilanlar/vasita" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                          Otomobil
-                        </Link>
-                        <Link href="/ilanlar/vasita" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                          Arazi & SUV
-                        </Link>
-                        <Link href="/ilanlar/vasita" className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:bg-[#FFB000] hover:border-[#FFB000] hover:text-zinc-950 text-white text-xs sm:text-sm font-medium transition-all whitespace-nowrap">
-                          Ticari Araç
+                      {/* Sağ: Tüm İlanları Gör */}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <Link href="/ilanlar/vasita" className="px-3.5 sm:px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-[#FFB000] hover:text-zinc-950 font-semibold text-white text-xs sm:text-sm transition-all border border-zinc-700/60 whitespace-nowrap">
+                          Tüm İlanları Gör →
                         </Link>
                       </div>
                     </div>
@@ -628,7 +572,7 @@ export default function Home() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               {categories.map((category) => {
-                const hasStatusFilters = category.id === "konut" || category.id === "ticari";
+                const hasStatusFilters = category.id === "konut" || category.id === "ticari" || category.id === "arsa";
                 return (
                   <div
                     key={category.id}

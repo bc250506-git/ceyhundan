@@ -206,8 +206,8 @@ function EmlakListingsContent() {
   const formatPropertyType = (type: string) => {
     const typeMap: Record<string, string> = {
       'konut': 'Konut',
-      'ticari': 'İş Yeri',
-      'arsa': 'Arsa',
+      'ticari': 'İş Yeri, Ofis, Büro & Depo',
+      'arsa': 'Arsa & Arazi',
       'vasita': 'Vasıta'
     };
     
@@ -626,10 +626,10 @@ function EmlakListingsContent() {
                   Konut
                 </Link>
                 <Link href={getCategoryLink('ticari')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${propertyType === 'ticari' ? 'bg-primary text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
-                  İş Yeri
+                  İş Yeri, Ofis, Büro & Depo
                 </Link>
                 <Link href={getCategoryLink('arsa')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${propertyType === 'arsa' ? 'bg-primary text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
-                  Arsa
+                  Arsa & Arazi
                 </Link>
               </div>
             </div>

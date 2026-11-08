@@ -258,8 +258,8 @@ function CategoryListingsContent() {
   const formatPropertyType = (type: string) => {
     const typeMap: Record<string, string> = {
       'konut': 'Konut',
-      'ticari': 'İş Yeri',
-      'arsa': 'Arsa',
+      'ticari': 'İş Yeri, Ofis, Büro & Depo',
+      'arsa': 'Arsa & Arazi',
       'vasita': 'Vasıta'
     };
     
@@ -298,9 +298,9 @@ function CategoryListingsContent() {
       case 'konut':
         return 'Konut İlanları';
       case 'ticari':
-        return 'İş Yeri İlanları';
+        return 'İş Yeri, Ofis, Büro & Depo İlanları';
       case 'arsa':
-        return 'Arsa İlanları';
+        return 'Arsa & Arazi İlanları';
       case 'vasita':
         return 'Vasıta İlanları';
       default:
@@ -829,10 +829,10 @@ function CategoryListingsContent() {
                   Konut
                 </Link>
                 <Link href={getCategoryLink('ticari')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === 'ticari' ? 'bg-primary text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
-                  İş Yeri
+                  İş Yeri, Ofis, Büro & Depo
                 </Link>
                 <Link href={getCategoryLink('arsa')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === 'arsa' ? 'bg-primary text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
-                  Arsa
+                  Arsa & Arazi
                 </Link>
                 {category === 'vasita' && (
                   <Link href={getCategoryLink('vasita')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${category === 'vasita' ? 'bg-primary text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>

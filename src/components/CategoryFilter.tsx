@@ -756,8 +756,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ category, initialFilter
               <SelectContent>
                 <SelectItem value="all">Tümü</SelectItem>
                 <SelectItem value="konut">Konut</SelectItem>
-                <SelectItem value="ticari">İş Yeri</SelectItem>
-                <SelectItem value="arsa">Arsa</SelectItem>
+                <SelectItem value="ticari">İş Yeri, Ofis, Büro & Depo</SelectItem>
+                <SelectItem value="arsa">Arsa & Arazi</SelectItem>
               </SelectContent>
             </Select>
           </div>
