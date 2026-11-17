@@ -11,6 +11,13 @@ export default function SiteVisitTracker() {
     if (pathname?.startsWith("/admin")) return;
 
     try {
+      // Throttle: Track once per session to avoid burning serverless CPU on every page change
+      if (typeof window !== "undefined") {
+        const lastTracked = sessionStorage.getItem("sv_session_active");
+        if (lastTracked) return;
+        sessionStorage.setItem("sv_session_active", "1");
+      }
+
       fetch("/api/track-visit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

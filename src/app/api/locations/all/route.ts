@@ -17,6 +17,9 @@ type NeighborhoodsByDistrict = {
   [district: string]: DistrictData;
 };
 
+// Cache for 24 hours at the Vercel Edge CDN
+export const revalidate = 86400;
+
 export async function GET() {
   try {
     // Fetch all addresses
@@ -74,7 +77,11 @@ export async function GET() {
       }
     });
     
-    return NextResponse.json(locations);
+    return NextResponse.json(locations, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400'
+      }
+    });
   } catch (error) {
     console.error('Error in all locations route:', error);
     return NextResponse.json(

@@ -58,38 +58,18 @@ export default function Home() {
     }
   };
 
-  // Fetch listing counts from API
+  // Fetch listing counts from lightweight API
   useEffect(() => {
     const fetchListingCounts = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/listings');
+        const response = await fetch('/api/listings/counts');
         
         if (!response.ok) {
-          throw new Error('Failed to fetch listings');
+          throw new Error('Failed to fetch listing counts');
         }
         
-        const data = await response.json();
-        
-        // Count listings by category
-        const counts = {
-          konut: data.filter((listing: any) => listing.property_type === 'konut').length,
-          ticari: data.filter((listing: any) => listing.property_type === 'ticari').length,
-          arsa: data.filter((listing: any) => listing.property_type === 'arsa').length,
-          vasita: data.filter((listing: any) => listing.property_type === 'vasita').length,
-          prefabrik: data.filter((listing: any) => 
-            listing.sub_category === 'Prefabrik' || 
-            listing.sub_category === 'Tiny House' ||
-            listing.sub_category === 'Konteyner' ||
-            listing.konut_type === 'prefabrik' ||
-            listing.konut_details?.[0]?.konut_type === 'prefabrik' ||
-            (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
-            (listing.title && listing.title.toLowerCase().includes('tiny house')) ||
-            (listing.title && listing.title.toLowerCase().includes('konteyner'))
-          ).length,
-          total: data.length
-        };
-        
+        const counts = await response.json();
         setCategoryCountData(counts);
         setIsLoading(false);
       } catch (error) {

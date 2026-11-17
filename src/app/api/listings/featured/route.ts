@@ -11,6 +11,9 @@ function getDeterministicHash(str: string): number {
   return hash >>> 0;
 }
 
+// Cache for 5 minutes at Vercel Edge CDN
+export const revalidate = 300;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -144,7 +147,11 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json(resultFeatured);
+    return NextResponse.json(resultFeatured, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+      }
+    });
   } catch (err: any) {
     console.error('Error in /api/listings/featured route:', err);
     return NextResponse.json([]);

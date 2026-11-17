@@ -567,7 +567,11 @@ export async function GET(request: NextRequest) {
       });
       
       console.log(`Fetched ${transformedData.length} listings`);
-      return NextResponse.json(transformedData);
+      return NextResponse.json(transformedData, {
+        headers: !isAdminRequest ? {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120'
+        } : undefined
+      });
     }
   } catch (error) {
     console.error('Error in listings route:', error);
