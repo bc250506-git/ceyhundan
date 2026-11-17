@@ -6,10 +6,10 @@ export const revalidate = 120;
 
 export async function GET() {
   try {
-    // Only select the lightweight fields needed for counts
+    // Only select lightweight fields and konut_details relation needed for counts
     const { data, error } = await supabase
       .from('listings')
-      .select('property_type, sub_category, konut_type, title, is_active')
+      .select('id, property_type, title, is_active, konut_details(konut_type)')
       .eq('is_active', true);
 
     if (error || !data) {
@@ -28,14 +28,12 @@ export async function GET() {
       });
     }
 
-    const isPrefabrik = (listing: any) => 
-      listing.sub_category === 'Prefabrik' || 
-      listing.sub_category === 'Tiny House' ||
-      listing.sub_category === 'Konteyner' ||
-      listing.konut_type === 'prefabrik' ||
-      (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
-      (listing.title && listing.title.toLowerCase().includes('tiny house')) ||
-      (listing.title && listing.title.toLowerCase().includes('konteyner'));
+    const isPrefabrik = (listing: any) => {
+      const kType = (listing.konut_details?.[0]?.konut_type || '').toLowerCase();
+      const title = (listing.title || '').toLowerCase();
+      return kType.includes('prefabrik') || kType.includes('konteyner') || kType.includes('tiny') ||
+        title.includes('tiny house') || title.includes('prefabrik') || title.includes('konteyner');
+    };
 
     const counts = {
       konut: data.filter((listing: any) => listing.property_type === 'konut' && !isPrefabrik(listing)).length,
