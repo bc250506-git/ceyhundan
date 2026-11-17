@@ -124,7 +124,7 @@ const CategorySelection = ({
       { id: "villa", name: "Villa" },
       { id: "mustakil_ev", name: "Müstakil Ev" },
       { id: "bina", name: "Bina" },
-      { id: "Prefabrik", name: "Prefabrik" }
+      { id: "Prefabrik", name: "Konteyner & Tiny House" }
     ],
     ticari: [
       { id: "dukkan", name: "Dükkan" },

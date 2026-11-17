@@ -453,7 +453,7 @@ const FilterArea = () => {
                     <SelectItem value="villa">Villa</SelectItem>
                     <SelectItem value="mustakil">Müstakil Ev</SelectItem>
                     <SelectItem value="bina">Bina</SelectItem>
-                    <SelectItem value="prefabrik">Konteyner & Tiny House (Prefabrik)</SelectItem>
+                    <SelectItem value="prefabrik">Konteyner & Tiny House</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

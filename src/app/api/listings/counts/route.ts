@@ -28,20 +28,21 @@ export async function GET() {
       });
     }
 
+    const isPrefabrik = (listing: any) => 
+      listing.sub_category === 'Prefabrik' || 
+      listing.sub_category === 'Tiny House' ||
+      listing.sub_category === 'Konteyner' ||
+      listing.konut_type === 'prefabrik' ||
+      (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
+      (listing.title && listing.title.toLowerCase().includes('tiny house')) ||
+      (listing.title && listing.title.toLowerCase().includes('konteyner'));
+
     const counts = {
-      konut: data.filter((listing: any) => listing.property_type === 'konut').length,
+      konut: data.filter((listing: any) => listing.property_type === 'konut' && !isPrefabrik(listing)).length,
       ticari: data.filter((listing: any) => listing.property_type === 'ticari').length,
       arsa: data.filter((listing: any) => listing.property_type === 'arsa').length,
       vasita: data.filter((listing: any) => listing.property_type === 'vasita').length,
-      prefabrik: data.filter((listing: any) => 
-        listing.sub_category === 'Prefabrik' || 
-        listing.sub_category === 'Tiny House' ||
-        listing.sub_category === 'Konteyner' ||
-        listing.konut_type === 'prefabrik' ||
-        (listing.title && listing.title.toLowerCase().includes('prefabrik')) || 
-        (listing.title && listing.title.toLowerCase().includes('tiny house')) ||
-        (listing.title && listing.title.toLowerCase().includes('konteyner'))
-      ).length,
+      prefabrik: data.filter((listing: any) => isPrefabrik(listing)).length,
       total: data.length
     };
 

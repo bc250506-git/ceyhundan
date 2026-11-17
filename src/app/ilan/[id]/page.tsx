@@ -227,7 +227,9 @@ export default function ListingDetail() {
             'daire': 'Daire',
             'villa': 'Villa',
             'mustakil_ev': 'Müstakil Ev',
-            'bina': 'Bina'
+            'bina': 'Bina',
+            'prefabrik': 'Konteyner & Tiny House',
+            'Prefabrik': 'Konteyner & Tiny House'
           };
           propertyTypeDetails.push({ label: 'Konut Tipi', value: konutTypeMap[konutDetails.konut_type] || konutDetails.konut_type });
         }

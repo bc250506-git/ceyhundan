@@ -552,6 +552,7 @@ export async function GET(request: NextRequest) {
           if (sub_category === 'ticari_imarli') formatted_sub_category = 'Ticari İmarlı';
           if (sub_category === 'otobus_hatti') formatted_sub_category = 'Otobüs Hattı';
           if (sub_category === 'taksi_hatti') formatted_sub_category = 'Taksi Hattı';
+          if (sub_category.toLowerCase() === 'prefabrik') formatted_sub_category = 'Konteyner & Tiny House';
         }
         
         return {

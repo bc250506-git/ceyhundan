@@ -468,16 +468,27 @@ function CategoryListingsContent() {
       );
     }
     
+    // Helper to check if a listing is a Prefabrik / Tiny House / Konteyner
+    const isPrefabrikListing = (listing: any) => {
+      const kType = (listing.konut_type || (listing.konut_details && listing.konut_details[0]?.konut_type) || listing.subcategory || listing.sub_category || '').toLowerCase();
+      const title = (listing.title || '').toLowerCase();
+      return kType.includes('prefabrik') || kType.includes('konteyner') || kType.includes('tiny') || title.includes('tiny house') || title.includes('prefabrik') || title.includes('konteyner');
+    };
+
     // Filter by konut type
-    if (konutType && (category === 'konut' || category === 'emlak')) {
-      filtered = filtered.filter(listing => {
-        const kType = (listing.konut_type || (listing.konut_details && listing.konut_details[0]?.konut_type) || '').toLowerCase();
+    if (category === 'konut' || category === 'emlak') {
+      if (konutType && konutType.toLowerCase() === 'prefabrik') {
+        filtered = filtered.filter(listing => isPrefabrikListing(listing));
+      } else if (konutType && konutType !== 'all') {
         const target = konutType.toLowerCase();
-        if (target === 'prefabrik') {
-          return kType.includes('prefabrik') || kType.includes('konteyner') || kType.includes('tiny');
-        }
-        return kType === target || kType.includes(target);
-      });
+        filtered = filtered.filter(listing => {
+          const kType = (listing.konut_type || (listing.konut_details && listing.konut_details[0]?.konut_type) || '').toLowerCase();
+          return (kType === target || kType.includes(target)) && !isPrefabrikListing(listing);
+        });
+      } else if (category === 'konut') {
+        // Normal konut listesinde Prefabrik / Tiny House gösterilmez
+        filtered = filtered.filter(listing => !isPrefabrikListing(listing));
+      }
     }
     
     // Konut ve ticari için ısıtma tipi filtresi

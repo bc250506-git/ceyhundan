@@ -53,6 +53,11 @@ export const metadata: Metadata = {
         alt: "Ceyhun Gayrimenkul Emlak Logo",
       },
     ],
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   }
 };
 
@@ -64,6 +69,8 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${poppins.variable} ${inter.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
